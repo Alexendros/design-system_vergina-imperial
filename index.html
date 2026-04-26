@@ -6,6 +6,18 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="colors_and_type.css?v=0.2.0">
 <link rel="stylesheet" href="color_modes.css?v=0.2.0">
+<!-- Tipografía canónica v0.2.1 · Outfit (display + sans) + JetBrains Mono.
+     Bricolage Grotesque eliminado (curvas humanistas no metalizables). -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+  :root {
+    --font-display: "Outfit", -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-sans: "Outfit", -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-mono: "JetBrains Mono", "SF Mono", Menlo, Consolas, monospace;
+  }
+</style>
 <style>
   html, body { margin: 0; min-height: 100vh; }
   body {
@@ -92,24 +104,35 @@
   .brand-row svg { color: var(--accent); }
   .brand-row .sep { width: 24px; height: 1px; background: var(--color-border-default); }
 
+  /* H1 hero · doctrina v0.2.1 · degradado vertical color→transparente aplicado
+     a TODO el bloque (no solo a un span). Las primeras líneas quedan sólidas,
+     las últimas se funden con la atmósfera púrpura del fondo. Halo accent
+     suave via drop-shadow para reforzar el carácter metálico. */
   h1.display {
     font-family: var(--font-display);
     font-size: clamp(48px, 7vw, 104px);
-    font-weight: var(--weight-semibold);
-    line-height: 0.96;
-    letter-spacing: var(--tracking-display);
+    font-weight: 700;
+    line-height: 0.98;
+    letter-spacing: -0.025em;
     margin: 0 0 var(--space-6);
     text-wrap: balance;
     max-width: 16ch;
-  }
-  h1.display .fade {
-    background: linear-gradient(180deg, var(--color-text-primary) 25%, transparent 95%);
-    -webkit-background-clip: text;
+    background: linear-gradient(
+      180deg,
+      var(--color-text-primary) 0%,
+      var(--color-text-primary) 35%,
+      color-mix(in oklch, var(--color-text-primary) 60%, transparent) 70%,
+      transparent 100%
+    );
     background-clip: text;
+    -webkit-background-clip: text;
     color: transparent;
     -webkit-text-fill-color: transparent;
-    display: inline-block;
+    filter: drop-shadow(0 0 36px color-mix(in oklch, var(--accent) 18%, transparent));
   }
+  /* Compat legacy: span.fade ya no es necesario; el degradado vive en el h1.
+     Si el consumidor sigue usándolo, lo absorbemos sin efecto extra. */
+  h1.display .fade { display: inline; }
   .lede {
     font-size: var(--text-xl);
     color: var(--color-text-secondary);
@@ -241,7 +264,7 @@
       <span>Vergina Imperial · v0.2.0</span>
     </div>
 
-    <h1 class="display">Una atmósfera. Dos brillos. <span class="fade">Un sistema.</span></h1>
+    <h1 class="display">Una atmósfera. Dos brillos. Un sistema.</h1>
     <p class="lede">Manual de diseño dark-first para Alexendros. Atmósfera púrpura pretoriana en el fondo; oro Vergina o titanio metalizado en el primer plano. Glassmorphism por defecto. Cero decoración gratuita.</p>
 
     <nav class="nav" aria-label="Navegación del manual">
