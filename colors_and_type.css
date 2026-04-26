@@ -1,5 +1,5 @@
 /* =========================================================================
-   Manual de Diseño · Vergina Imperial — Core Tokens (v0.2.0)
+   Manual de Diseño · Vergina Imperial — Core Tokens (v0.2.2)
    =========================================================================
    Dark-first. oklch throughout. No gratuitous decoration.
 
@@ -10,12 +10,18 @@
 
    Activación: data-mode="deep|bright" + data-accent="gold|titanium" en root.
    Defaults: deep + gold. (Los aliases dark|light siguen aceptados.)
+
+   v0.2.2 (2026-04-26) — Tipografía unificada en Inter Variable.
+   Outfit/Bricolage Grotesque/Manrope descatalogados como display y body sans.
    ========================================================================= */
 
 /* ---------- Webfonts ------------------------------------------------ */
-/* Bricolage Grotesque + Manrope + JetBrains Mono — Google Fonts (CDN).
-   Importadas via <link> en Atelier de Revisión.html / Font Lab.html.
-   Geist queda como fallback local para arranque sin red. */
+/* Inter Variable + JetBrains Mono — Google Fonts (CDN).
+   Importadas via <link> en index.html / Atelier de Revisión.html (consumers
+   Next.js usan next/font/google; ver SKILL.md snippet canónico).
+   Inter cubre display + sans (misma familia, weights 400-900). Anti-aliasing
+   excelente en pantallas no-retina; ligaduras + alts (cv05, cv11, ss01, ss02).
+   Geist queda como último fallback local para arranque sin red. */
 
 @font-face {
   font-family: "Geist";
@@ -48,9 +54,9 @@
      2. TYPOGRAPHY — families + fluid scale
      ===================================================================== */
 
-  --font-sans: "Manrope", -apple-system, BlinkMacSystemFont, "Segoe UI", "Geist", sans-serif;
+  --font-sans: "Inter", "Inter Variable", -apple-system, BlinkMacSystemFont, "Segoe UI", "Geist", sans-serif;
   --font-mono: "JetBrains Mono", "Geist Mono", "SF Mono", Menlo, Consolas, monospace;
-  --font-display: "Bricolage Grotesque", "Manrope", -apple-system, sans-serif;
+  --font-display: "Inter", "Inter Variable", -apple-system, sans-serif;
 
   /* Fluid scale — clamp(min, preferred, max). No media queries. */
   --text-xs:      clamp(0.75rem, 0.72rem + 0.12vw, 0.813rem);
@@ -177,8 +183,11 @@ body {
   font-size: var(--text-base);
   line-height: var(--leading-normal);
   letter-spacing: var(--tracking-body);
-  font-feature-settings: "ss01", "cv11", "calt";
+  /* Inter ligaduras estilísticas + alts (cv05 'l' simple · cv11 '0' tachado ·
+     ss01 'a' single-storey · ss02 'g' geométrico) + ligaduras contextuales. */
+  font-feature-settings: "cv05", "cv11", "ss01", "ss02", "rlig", "calt";
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
 }
 

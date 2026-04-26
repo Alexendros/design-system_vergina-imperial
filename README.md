@@ -4,7 +4,7 @@
 
 [![License: All rights reserved](https://img.shields.io/badge/license-all%20rights%20reserved-333.svg)](LICENSE)
 [![Validate](https://github.com/Alexendros/design-system_vergina-imperial/actions/workflows/validate.yml/badge.svg)](https://github.com/Alexendros/design-system_vergina-imperial/actions/workflows/validate.yml)
-[![Version](https://img.shields.io/badge/version-0.2.0-A87BD8.svg)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-0.2.2-A87BD8.svg)](CHANGELOG.md)
 
 Manual de diseño dark-first y de acabado alto para la marca **Alexendros**. El producto se llama **Vergina Imperial** — **V**ergina (oro) sobre **A**tmósfera **P**retoriana, opcionalmente recubierto de **titanio** cuando el dominio es maquinaria, no memoria.
 

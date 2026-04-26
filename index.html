@@ -4,17 +4,18 @@
 <meta charset="utf-8">
 <title>Vergina Imperial · Manual de Diseño</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="colors_and_type.css?v=0.2.0">
-<link rel="stylesheet" href="color_modes.css?v=0.2.0">
-<!-- Tipografía canónica v0.2.1 · Outfit (display + sans) + JetBrains Mono.
-     Bricolage Grotesque eliminado (curvas humanistas no metalizables). -->
+<link rel="stylesheet" href="colors_and_type.css?v=0.2.2">
+<link rel="stylesheet" href="color_modes.css?v=0.2.2">
+<!-- Tipografía canónica v0.2.2 · Inter (display + sans, mismo family) + JetBrains Mono.
+     Inter aprobada en hilo paralelo como reemplazo neogrotesque definitivo
+     (Outfit/Bricolage/Manrope/Geist/Bricolage-Grotesque · todos descatalogados). -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap">
 <style>
   :root {
-    --font-display: "Outfit", -apple-system, BlinkMacSystemFont, sans-serif;
-    --font-sans: "Outfit", -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-display: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     --font-mono: "JetBrains Mono", "SF Mono", Menlo, Consolas, monospace;
   }
 </style>
@@ -59,20 +60,41 @@
     filter: blur(140px);
     opacity: 0.22;
   }
+  /* DUST v0.2.2 · doble-tier · partículas nítidas (screen) sobre focos
+     difusos (plus-lighter) para auténtico difuminado-partículas. */
   .dust {
     mix-blend-mode: screen;
-    opacity: 0.50;
+    opacity: 0.66;
     background-image:
-      radial-gradient(1px 1px at 12% 18%, var(--accent-bright) 50%, transparent 51%),
-      radial-gradient(1px 1px at 78% 22%, var(--accent-bright) 50%, transparent 51%),
-      radial-gradient(1.2px 1.2px at 32% 64%, var(--accent) 50%, transparent 51%),
-      radial-gradient(1px 1px at 88% 70%, var(--accent-bright) 50%, transparent 51%),
-      radial-gradient(0.8px 0.8px at 56% 38%, var(--accent-bright) 50%, transparent 51%),
-      radial-gradient(1.5px 1.5px at 6% 86%, var(--accent) 50%, transparent 51%),
-      radial-gradient(1px 1px at 44% 92%, var(--accent-bright) 50%, transparent 51%),
-      radial-gradient(0.9px 0.9px at 70% 8%, var(--accent) 50%, transparent 51%),
-      radial-gradient(1.3px 1.3px at 22% 44%, var(--accent-bright) 50%, transparent 51%),
-      radial-gradient(1px 1px at 92% 48%, var(--accent) 50%, transparent 51%);
+      radial-gradient(1.4px 1.4px at 12% 18%, var(--accent-bright) 50%, transparent 51%),
+      radial-gradient(1.6px 1.6px at 78% 22%, var(--accent-bright) 50%, transparent 51%),
+      radial-gradient(1.3px 1.3px at 32% 64%, var(--accent) 50%, transparent 51%),
+      radial-gradient(1.5px 1.5px at 88% 70%, var(--accent-bright) 50%, transparent 51%),
+      radial-gradient(1px 1px at 56% 38%, var(--accent-bright) 50%, transparent 51%),
+      radial-gradient(1.8px 1.8px at 6% 86%, var(--accent) 50%, transparent 51%),
+      radial-gradient(1.1px 1.1px at 44% 92%, var(--accent-bright) 50%, transparent 51%),
+      radial-gradient(1.2px 1.2px at 70% 8%, var(--accent) 50%, transparent 51%),
+      radial-gradient(1.6px 1.6px at 22% 44%, var(--accent-bright) 50%, transparent 51%),
+      radial-gradient(1.3px 1.3px at 92% 48%, var(--accent) 50%, transparent 51%),
+      radial-gradient(0.7px 0.7px at 38% 12%, var(--accent-bright) 50%, transparent 51%),
+      radial-gradient(0.7px 0.7px at 64% 78%, var(--accent-bright) 50%, transparent 51%),
+      radial-gradient(0.8px 0.8px at 18% 72%, var(--accent) 50%, transparent 51%),
+      radial-gradient(0.9px 0.9px at 84% 36%, var(--accent-bright) 50%, transparent 51%),
+      radial-gradient(0.7px 0.7px at 50% 58%, var(--accent) 50%, transparent 51%),
+      radial-gradient(1px 1px at 14% 56%, var(--accent-bright) 50%, transparent 51%);
+  }
+  .dust::before {
+    content: "";
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(circle 90px at 25% 32%, color-mix(in oklch, var(--accent-bright) 16%, transparent), transparent 70%),
+      radial-gradient(circle 120px at 75% 66%, color-mix(in oklch, var(--accent) 12%, transparent), transparent 75%),
+      radial-gradient(circle 70px at 60% 18%, color-mix(in oklch, var(--accent-bright) 14%, transparent), transparent 70%),
+      radial-gradient(circle 100px at 40% 80%, color-mix(in oklch, var(--accent) 10%, transparent), transparent 75%);
+    filter: blur(28px);
+    mix-blend-mode: plus-lighter;
+    opacity: 0.85;
+    pointer-events: none;
   }
   .vignette {
     background: radial-gradient(120% 120% at 50% 50%, transparent 60%, var(--atmosphere-vignette) 100%);
@@ -90,24 +112,42 @@
     flex-direction: column;
   }
 
+  /* BRAND-ROW v0.2.2 · pill glass · más visible sin dominar el hero.
+     Backdrop-filter sobre la atmósfera + halo accent + dot indicador. */
   .brand-row {
-    display: flex;
+    display: inline-flex;
+    width: fit-content;
     align-items: center;
-    gap: var(--space-2);
+    gap: var(--space-3);
+    padding: 8px 18px;
     font-family: var(--font-mono);
     font-size: var(--text-xs);
-    letter-spacing: 0.16em;
+    letter-spacing: 0.18em;
     text-transform: uppercase;
-    color: var(--color-text-tertiary);
+    color: var(--color-text-secondary);
     margin-bottom: var(--space-12);
+    background: color-mix(in oklch, var(--color-surface-1, var(--color-surface-0)) 55%, transparent);
+    backdrop-filter: blur(16px) saturate(140%);
+    -webkit-backdrop-filter: blur(16px) saturate(140%);
+    border: 1px solid color-mix(in oklch, var(--accent) 16%, var(--glass-border));
+    border-radius: 999px;
+    box-shadow:
+      inset 0 1px 0 oklch(1 0 0 / 0.06),
+      0 8px 24px -16px color-mix(in oklch, var(--accent) 40%, transparent);
   }
-  .brand-row svg { color: var(--accent); }
-  .brand-row .sep { width: 24px; height: 1px; background: var(--color-border-default); }
+  .brand-row svg {
+    color: var(--accent);
+    filter: drop-shadow(0 0 8px color-mix(in oklch, var(--accent) 50%, transparent));
+  }
+  .brand-row .sep {
+    width: 18px; height: 1px;
+    background: color-mix(in oklch, var(--accent) 30%, var(--color-border-default));
+  }
 
-  /* H1 hero · doctrina v0.2.1 · degradado vertical color→transparente aplicado
-     a TODO el bloque (no solo a un span). Las primeras líneas quedan sólidas,
-     las últimas se funden con la atmósfera púrpura del fondo. Halo accent
-     suave via drop-shadow para reforzar el carácter metálico. */
+  /* H1 hero · doctrina v0.2.2 · degradado vertical color→semi-transparente.
+     Sólido hasta 55%, transición suave al 80%, baseline 35% al 100% (NUNCA
+     fade total). El final no desaparece — se funde tenue en la atmósfera.
+     Halo accent via drop-shadow refuerza carácter metálico. */
   h1.display {
     font-family: var(--font-display);
     font-size: clamp(48px, 7vw, 104px);
@@ -120,9 +160,9 @@
     background: linear-gradient(
       180deg,
       var(--color-text-primary) 0%,
-      var(--color-text-primary) 35%,
-      color-mix(in oklch, var(--color-text-primary) 60%, transparent) 70%,
-      transparent 100%
+      var(--color-text-primary) 55%,
+      color-mix(in oklch, var(--color-text-primary) 78%, transparent) 80%,
+      color-mix(in oklch, var(--color-text-primary) 35%, transparent) 100%
     );
     background-clip: text;
     -webkit-background-clip: text;
@@ -261,7 +301,7 @@
       </svg>
       <span>Alexendros</span>
       <span class="sep"></span>
-      <span>Vergina Imperial · v0.2.0</span>
+      <span>Vergina Imperial · v0.2.2</span>
     </div>
 
     <h1 class="display">Una atmósfera. Dos brillos. Un sistema.</h1>

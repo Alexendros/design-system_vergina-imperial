@@ -1,6 +1,6 @@
 ---
 name: vergina-imperial
-description: Manual de Diseño · Vergina Imperial v0.2.0. Use this skill to generate well-branded interfaces and assets for Alexendros (brand), either for production or throwaway prototypes/mocks. Sistema unificado dark-first — una atmósfera púrpura pretoriana, dos brillos metálicos (oro Vergina · titanio).
+description: Manual de Diseño · Vergina Imperial v0.2.2. Use this skill to generate well-branded interfaces and assets for Alexendros (brand), either for production or throwaway prototypes/mocks. Sistema unificado dark-first — una atmósfera púrpura pretoriana, dos brillos metálicos (oro Vergina · titanio).
 user-invocable: true
 ---
 
@@ -38,7 +38,7 @@ Es el error más común. Importar `colors_and_type.css` + `color_modes.css` solo
 1. **Tokens** (variables CSS) — paleta, tipografía, spacing, motion, z-index. Vienen del CSS.
 2. **Atmósfera** (4 divs HTML fijos detrás del contenido) — `.atm` + `.spark` + `.dust` + `.vignette`. Sin ellos surface-0 es solo un fondo plano púrpura, NO la atmósfera vibrante del sistema.
 3. **Glass primitive** (paneles translúcidos) — `.card` con `background: var(--glass-bg)` + `backdrop-filter: var(--glass-blur)` + `border: 1px solid var(--glass-border)` + `box-shadow: var(--glass-shadow)`. La atmósfera atraviesa el cristal.
-4. **Tipografía display** — `font-family: var(--font-display)` (**Outfit weight 700** mixed-case · neogrotesque sobria, metalizable) en hero h1 con `text-wrap: balance` + degradado vertical color→transparente que funde el final del título con la atmósfera. Outfit cubre también el body sans (mismo family, weights 400-500). Bricolage Grotesque descartado por curvas humanistas no metalizables.
+4. **Tipografía display** — `font-family: var(--font-display)` (**Inter weight 700** mixed-case · neogrotesque industrial, metalizable y de altísima legibilidad) en hero h1 con `text-wrap: balance` + degradado vertical color→semi-transparente (NUNCA fade total · 35% al baseline) que funde tenue el final del título con la atmósfera. Inter cubre también el body sans (mismo family, weights 400-500). Outfit/Bricolage Grotesque/Manrope descatalogados (Inter aprobada como reemplazo definitivo de la familia Grotesque).
 5. **Acento aplicado por superficie** — toda una vista vive en oro o en titanio. NO mezclar dentro del mismo viewport. Decisión por dominio del producto, no por gusto visual.
 
 Si alguna de las 5 capas falta, el resultado se ve "incompleto" o "plano".
@@ -59,7 +59,7 @@ Pega esto en CUALQUIER HTML/JSX para tener el sistema completo. Es el quick-star
   <link rel="stylesheet" href="https://your-host/color_modes.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap">
   <style>
     /* ATMÓSFERA · 4 capas fijas (sin esto el sistema queda plano) */
     body{position:relative;overflow-x:hidden;min-height:100vh;background:var(--color-surface-0);color:var(--color-text-primary);font-family:var(--font-sans);margin:0}
@@ -68,23 +68,27 @@ Pega esto en CUALQUIER HTML/JSX para tener el sistema completo. Es el quick-star
     .atm::before{top:-25vh;left:-10vw;width:75vw;height:75vw;background:radial-gradient(closest-side,var(--atmosphere-haze) 0%,transparent 65%);opacity:.55}
     .atm::after{bottom:-30vh;right:-15vw;width:90vw;height:90vw;background:radial-gradient(closest-side,var(--atmosphere-velvet) 0%,transparent 60%);opacity:.85}
     .spark{top:50vh;right:22vw;width:360px;height:360px;border-radius:50%;background:var(--accent);filter:blur(140px);opacity:.22}
-    .dust{mix-blend-mode:screen;opacity:.50;background-image:radial-gradient(1px 1px at 12% 18%,var(--accent-bright) 50%,transparent 51%),radial-gradient(1px 1px at 78% 22%,var(--accent-bright) 50%,transparent 51%),radial-gradient(1.2px 1.2px at 32% 64%,var(--accent) 50%,transparent 51%),radial-gradient(1px 1px at 88% 70%,var(--accent-bright) 50%,transparent 51%),radial-gradient(0.8px 0.8px at 56% 38%,var(--accent-bright) 50%,transparent 51%),radial-gradient(1.5px 1.5px at 6% 86%,var(--accent) 50%,transparent 51%),radial-gradient(1px 1px at 44% 92%,var(--accent-bright) 50%,transparent 51%),radial-gradient(0.9px 0.9px at 70% 8%,var(--accent) 50%,transparent 51%),radial-gradient(1.3px 1.3px at 22% 44%,var(--accent-bright) 50%,transparent 51%),radial-gradient(1px 1px at 92% 48%,var(--accent) 50%,transparent 51%)}
+    /* DUST v0.2.2 · 16 partículas nítidas (screen) + ::before con focos difusos (plus-lighter) */
+    .dust{mix-blend-mode:screen;opacity:.66;background-image:radial-gradient(1.4px 1.4px at 12% 18%,var(--accent-bright) 50%,transparent 51%),radial-gradient(1.6px 1.6px at 78% 22%,var(--accent-bright) 50%,transparent 51%),radial-gradient(1.3px 1.3px at 32% 64%,var(--accent) 50%,transparent 51%),radial-gradient(1.5px 1.5px at 88% 70%,var(--accent-bright) 50%,transparent 51%),radial-gradient(1px 1px at 56% 38%,var(--accent-bright) 50%,transparent 51%),radial-gradient(1.8px 1.8px at 6% 86%,var(--accent) 50%,transparent 51%),radial-gradient(1.1px 1.1px at 44% 92%,var(--accent-bright) 50%,transparent 51%),radial-gradient(1.2px 1.2px at 70% 8%,var(--accent) 50%,transparent 51%),radial-gradient(1.6px 1.6px at 22% 44%,var(--accent-bright) 50%,transparent 51%),radial-gradient(1.3px 1.3px at 92% 48%,var(--accent) 50%,transparent 51%),radial-gradient(0.7px 0.7px at 38% 12%,var(--accent-bright) 50%,transparent 51%),radial-gradient(0.7px 0.7px at 64% 78%,var(--accent-bright) 50%,transparent 51%),radial-gradient(0.8px 0.8px at 18% 72%,var(--accent) 50%,transparent 51%),radial-gradient(0.9px 0.9px at 84% 36%,var(--accent-bright) 50%,transparent 51%),radial-gradient(0.7px 0.7px at 50% 58%,var(--accent) 50%,transparent 51%),radial-gradient(1px 1px at 14% 56%,var(--accent-bright) 50%,transparent 51%)}
+    .dust::before{content:"";position:absolute;inset:0;pointer-events:none;mix-blend-mode:plus-lighter;opacity:.85;filter:blur(28px);background:radial-gradient(circle 90px at 25% 32%,color-mix(in oklch,var(--accent-bright) 16%,transparent),transparent 70%),radial-gradient(circle 120px at 75% 66%,color-mix(in oklch,var(--accent) 12%,transparent),transparent 75%),radial-gradient(circle 70px at 60% 18%,color-mix(in oklch,var(--accent-bright) 14%,transparent),transparent 70%),radial-gradient(circle 100px at 40% 80%,color-mix(in oklch,var(--accent) 10%,transparent),transparent 75%)}
     .vignette{background:radial-gradient(120% 120% at 50% 50%,transparent 60%,var(--atmosphere-vignette) 100%)}
     main,header,footer,section,nav{position:relative;z-index:1}
     /* GLASS card primitive */
     .card{background:var(--glass-bg);backdrop-filter:var(--glass-blur);-webkit-backdrop-filter:var(--glass-blur);border:1px solid var(--glass-border);border-radius:var(--radius-xl);box-shadow:var(--glass-shadow);padding:var(--space-6);position:relative;overflow:hidden}
     .card::after{content:"";position:absolute;inset:0 0 auto 0;height:50%;background:linear-gradient(180deg,oklch(1 0 0 / 0.06),transparent);pointer-events:none}
-    /* Hero h1 display · Outfit weight 700 + degradado vertical color→transparent
-       aplicado al elemento entero (no solo a un span). Halo accent suave. */
+    /* BRAND-ROW v0.2.2 · pill glass · banner superior visible sin dominar */
+    .brand-row{display:inline-flex;width:fit-content;align-items:center;gap:var(--space-3);padding:8px 18px;font-family:var(--font-mono);font-size:var(--text-xs);letter-spacing:.18em;text-transform:uppercase;color:var(--color-text-secondary);background:color-mix(in oklch,var(--color-surface-1,var(--color-surface-0)) 55%,transparent);backdrop-filter:blur(16px) saturate(140%);-webkit-backdrop-filter:blur(16px) saturate(140%);border:1px solid color-mix(in oklch,var(--accent) 16%,var(--glass-border));border-radius:999px;box-shadow:inset 0 1px 0 oklch(1 0 0 / 0.06),0 8px 24px -16px color-mix(in oklch,var(--accent) 40%,transparent)}
+    /* Hero h1 display · Inter weight 700 + degradado vertical color→semi-transparent
+       (NUNCA fade total · 35% baseline al 100%). Halo accent suave. */
     h1.display,.hero h1{
-      font-family:var(--font-display,"Outfit");font-size:clamp(48px,7vw,104px);
+      font-family:var(--font-display,"Inter");font-size:clamp(48px,7vw,104px);
       font-weight:700;line-height:.98;letter-spacing:-0.025em;
       text-wrap:balance;max-width:18ch;margin:0 0 var(--space-6);
       background:linear-gradient(180deg,
         var(--color-text-primary) 0%,
-        var(--color-text-primary) 35%,
-        color-mix(in oklch, var(--color-text-primary) 60%, transparent) 70%,
-        transparent 100%);
+        var(--color-text-primary) 55%,
+        color-mix(in oklch, var(--color-text-primary) 78%, transparent) 80%,
+        color-mix(in oklch, var(--color-text-primary) 35%, transparent) 100%);
       background-clip:text;-webkit-background-clip:text;
       color:transparent;-webkit-text-fill-color:transparent;
       filter:drop-shadow(0 0 36px color-mix(in oklch, var(--accent) 18%, transparent));
@@ -111,14 +115,15 @@ Pega esto en CUALQUIER HTML/JSX para tener el sistema completo. Es el quick-star
 **`app/layout.tsx`** (root):
 
 ```tsx
-import { Outfit, JetBrains_Mono } from "next/font/google";
+import { Inter, JetBrains_Mono } from "next/font/google";
 
-// Outfit cubre display (h1 weight 700) y sans body (weights 400-600).
-// Bricolage Grotesque descartado por humanismo no metalizable.
-const sans = Outfit({
+// Inter cubre display (h1 weight 700) y sans body (weights 400-600).
+// Outfit/Bricolage Grotesque/Manrope descatalogados (Inter aprobada como
+// reemplazo definitivo de la familia neogrotesque).
+const sans = Inter({
   subsets: ["latin"],
   variable: "--font-sans",
-  weight: ["400","500","600","700","800"],
+  weight: ["400","500","600","700","800","900"],
 });
 const display = sans; // mismo family, --font-display alias en globals.css
 const mono = JetBrains_Mono({ subsets: ["latin"], variable: "--font-mono", weight: ["400","500"] });
@@ -148,13 +153,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 @import "vergina-imperial/color_modes.css";
 
 :root {
-  /* Outfit cubre display y sans (mismo family) · v0.2.1 */
-  --font-display: "Outfit", -apple-system, BlinkMacSystemFont, sans-serif;
+  /* Inter cubre display y sans (mismo family) · v0.2.2 */
+  --font-display: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
 body { position: relative; overflow-x: hidden; min-height: 100vh; background: var(--color-surface-0); color: var(--color-text-primary); }
 
-/* Hero h1 display · degradado vertical color→transparente */
+/* Hero h1 display · degradado vertical color→semi-transparente (35% baseline) */
 h1.display, .hero h1 {
   font-family: var(--font-display);
   font-weight: 700;
@@ -163,9 +168,9 @@ h1.display, .hero h1 {
   text-wrap: balance;
   background: linear-gradient(180deg,
     var(--color-text-primary) 0%,
-    var(--color-text-primary) 35%,
-    color-mix(in oklch, var(--color-text-primary) 60%, transparent) 70%,
-    transparent 100%);
+    var(--color-text-primary) 55%,
+    color-mix(in oklch, var(--color-text-primary) 78%, transparent) 80%,
+    color-mix(in oklch, var(--color-text-primary) 35%, transparent) 100%);
   background-clip: text;
   -webkit-background-clip: text;
   color: transparent;
