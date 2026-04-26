@@ -1,0 +1,505 @@
+/* =========================================================================
+   Font Lab — Atelier de Revisión
+   Type testing ground. Compares sans + mono candidates side-by-side
+   in real-world Atelier contexts (titles, body, code, numerics, UI chrome).
+   Inherits color tokens from colors_and_type.css.
+   ========================================================================= */
+
+.lab-shell {
+  min-height: 100vh;
+  background: var(--color-surface-0);
+  color: var(--color-text-primary);
+  padding: var(--space-8) clamp(var(--space-5), 4vw, var(--space-10));
+  max-width: 1480px;
+  margin: 0 auto;
+}
+
+/* ── Header ── */
+.lab-header {
+  border-bottom: 1px solid var(--color-border-subtle);
+  padding-bottom: var(--space-6);
+  margin-bottom: var(--space-8);
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-6);
+  flex-wrap: wrap;
+}
+.lab-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-text-tertiary);
+  margin-bottom: var(--space-3);
+}
+.lab-title {
+  font-family: var(--font-display);
+  font-size: clamp(28px, 4vw, 44px);
+  font-weight: 600;
+  letter-spacing: -0.035em;
+  line-height: 1.05;
+  color: var(--color-text-primary);
+  text-wrap: balance;
+}
+.lab-title em {
+  font-style: normal;
+  background: var(--accent-shimmer, linear-gradient(95deg,
+    oklch(0.78 0.13 80) 0%, oklch(0.86 0.10 90) 50%, oklch(0.78 0.13 80) 100%));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.lab-meta {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--color-text-tertiary);
+  letter-spacing: 0.06em;
+  text-align: right;
+}
+.lab-meta a {
+  color: var(--color-text-secondary);
+  text-decoration: none;
+  border-bottom: 1px dashed var(--color-border-default);
+}
+.lab-meta a:hover { color: oklch(0.78 0.13 80); }
+
+/* ── Section heads ── */
+.lab-section {
+  margin-bottom: var(--space-12);
+}
+.lab-section-head {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-4);
+  margin-bottom: var(--space-6);
+  padding-bottom: var(--space-3);
+  border-bottom: 1px dashed var(--color-border-subtle);
+}
+.lab-section-num {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.16em;
+  color: var(--color-text-tertiary);
+  font-feature-settings: "tnum";
+}
+.lab-section-title {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--color-text-primary);
+}
+.lab-section-sub {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  color: var(--color-text-tertiary);
+  margin-left: auto;
+  font-style: italic;
+}
+
+/* ── Specimen grid ── */
+.specimen-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(420px, 1fr));
+  gap: var(--space-5);
+}
+
+.specimen {
+  position: relative;
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-lg);
+  background:
+    linear-gradient(180deg,
+      color-mix(in oklch, var(--color-surface-100) 40%, transparent) 0%,
+      transparent 30%),
+    var(--color-surface-50);
+  padding: var(--space-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  transition: border-color var(--duration-base) var(--ease-out-quart),
+              transform var(--duration-base) var(--ease-out-quart);
+}
+.specimen:hover {
+  border-color: color-mix(in oklch, oklch(0.78 0.13 80) 40%, var(--color-border-subtle));
+  transform: translateY(-1px);
+}
+.specimen[data-recommended="true"] {
+  border-color: color-mix(in oklch, oklch(0.78 0.13 80) 50%, var(--color-border-subtle));
+  background:
+    linear-gradient(180deg,
+      color-mix(in oklch, oklch(0.78 0.13 80) 6%, transparent) 0%,
+      transparent 35%),
+    var(--color-surface-50);
+}
+.specimen[data-recommended="true"]::before {
+  content: "★ recomendado";
+  position: absolute;
+  top: var(--space-3);
+  right: var(--space-3);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: oklch(0.78 0.13 80);
+  background: color-mix(in oklch, oklch(0.78 0.13 80) 8%, transparent);
+  border: 1px solid color-mix(in oklch, oklch(0.78 0.13 80) 35%, transparent);
+  padding: 3px 8px;
+  border-radius: var(--radius-xs);
+}
+
+/* ── Specimen header ── */
+.specimen-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding-bottom: var(--space-3);
+  border-bottom: 1px dashed var(--color-border-subtle);
+}
+.specimen-name {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--color-text-primary);
+}
+.specimen-source {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-text-tertiary);
+}
+.specimen-source[data-source="google"] { color: oklch(0.62 0.16 145); }
+.specimen-source[data-source="local"] { color: oklch(0.78 0.13 80); }
+.specimen-source[data-source="bunny"] { color: oklch(0.62 0.14 240); }
+
+/* ── Sample blocks ── */
+.sample-row {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.sample-label {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-text-tertiary);
+}
+.sample-display {
+  font-size: 36px;
+  font-weight: 600;
+  letter-spacing: -0.035em;
+  line-height: 1.0;
+  color: var(--color-text-primary);
+}
+.sample-h2 {
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  color: var(--color-text-primary);
+}
+.sample-body {
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--color-text-secondary);
+  text-wrap: pretty;
+}
+.sample-numeric {
+  font-size: 18px;
+  font-weight: 500;
+  letter-spacing: 0;
+  color: var(--color-text-primary);
+  font-feature-settings: "tnum", "ss01";
+}
+.sample-numeric span {
+  display: inline-block;
+  margin-right: var(--space-3);
+}
+
+/* ── Mono samples ── */
+.sample-code {
+  background: var(--color-surface-100);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-sm);
+  padding: var(--space-3) var(--space-4);
+  font-size: 12.5px;
+  line-height: 1.6;
+  color: var(--color-text-primary);
+  white-space: pre;
+  overflow-x: auto;
+}
+.sample-code .tok-key { color: oklch(0.78 0.13 80); }
+.sample-code .tok-str { color: oklch(0.62 0.16 145); }
+.sample-code .tok-cmt { color: var(--color-text-tertiary); font-style: italic; }
+.sample-code .tok-num { color: oklch(0.72 0.16 35); }
+
+.sample-inline {
+  font-size: 13px;
+  color: var(--color-text-secondary);
+  line-height: 1.7;
+}
+.sample-inline code {
+  font-size: 0.92em;
+  background: var(--color-surface-100);
+  padding: 1px 6px;
+  border-radius: var(--radius-xs);
+  border: 1px solid var(--color-border-subtle);
+  color: var(--color-text-primary);
+}
+
+/* ── Specimen footer (verdict bar) ── */
+.specimen-foot {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  padding-top: var(--space-3);
+  border-top: 1px dashed var(--color-border-subtle);
+  margin-top: auto;
+}
+.spec-tag {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  padding: 2px 7px;
+  border-radius: var(--radius-xs);
+  border: 1px solid var(--color-border-subtle);
+  background: color-mix(in oklch, var(--color-surface-200) 50%, transparent);
+  color: var(--color-text-tertiary);
+}
+.spec-tag[data-positive="true"] {
+  color: oklch(0.62 0.16 145);
+  border-color: color-mix(in oklch, oklch(0.62 0.16 145) 30%, transparent);
+  background: color-mix(in oklch, oklch(0.62 0.16 145) 8%, transparent);
+}
+.spec-tag[data-warning="true"] {
+  color: oklch(0.72 0.16 35);
+  border-color: color-mix(in oklch, oklch(0.72 0.16 35) 30%, transparent);
+  background: color-mix(in oklch, oklch(0.72 0.16 35) 8%, transparent);
+}
+
+/* ── Verdict panel ── */
+.verdict {
+  margin-top: var(--space-12);
+  padding: var(--space-7) var(--space-6);
+  border: 1px solid color-mix(in oklch, oklch(0.78 0.13 80) 35%, var(--color-border-subtle));
+  border-radius: var(--radius-lg);
+  background:
+    radial-gradient(ellipse 80% 60% at 20% 0%,
+      color-mix(in oklch, oklch(0.78 0.13 80) 8%, transparent) 0%, transparent 70%),
+    color-mix(in oklch, var(--color-surface-100) 60%, transparent);
+}
+.verdict-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: oklch(0.78 0.13 80);
+  margin-bottom: var(--space-2);
+}
+.verdict-title {
+  font-family: var(--font-display);
+  font-size: 28px;
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  margin-bottom: var(--space-5);
+  color: var(--color-text-primary);
+  text-wrap: balance;
+}
+.verdict-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: var(--space-5);
+}
+.verdict-card {
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-md);
+  background: color-mix(in oklch, var(--color-surface-50) 70%, transparent);
+  padding: var(--space-4);
+}
+.verdict-role {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--color-text-tertiary);
+  margin-bottom: var(--space-2);
+}
+.verdict-pick {
+  font-family: var(--font-display);
+  font-size: 24px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-3);
+}
+.verdict-reason {
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-3);
+  text-wrap: pretty;
+}
+.verdict-pair {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--color-text-tertiary);
+  letter-spacing: 0.06em;
+  padding-top: var(--space-3);
+  border-top: 1px dashed var(--color-border-subtle);
+}
+.verdict-pair strong { color: var(--color-text-primary); font-weight: 500; }
+
+/* ── Live preview (renders an Atelier card in the chosen pair) ── */
+.live-preview {
+  margin-top: var(--space-12);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  background: var(--color-surface-50);
+}
+.live-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin-bottom: var(--space-6);
+  padding-bottom: var(--space-4);
+  border-bottom: 1px dashed var(--color-border-subtle);
+}
+.live-group {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+.live-group label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-text-tertiary);
+}
+.live-group select {
+  background: var(--color-surface-100);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-xs);
+  color: var(--color-text-primary);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+.live-group select:focus {
+  outline: none;
+  border-color: oklch(0.78 0.13 80);
+}
+
+.live-card {
+  background: var(--color-surface-100);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-md);
+  padding: var(--space-6);
+  display: grid;
+  grid-template-columns: 56px 1fr auto;
+  gap: var(--space-4);
+  align-items: center;
+}
+.live-card .lc-thumb {
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius-sm);
+  background: radial-gradient(circle at 35% 30%,
+    color-mix(in oklch, oklch(0.78 0.13 80) 14%, var(--color-surface-100)) 0%,
+    var(--color-surface-50) 70%);
+  border: 1px solid color-mix(in oklch, oklch(0.78 0.13 80) 22%, var(--color-border-subtle));
+  display: grid;
+  place-items: center;
+  color: oklch(0.78 0.13 80);
+}
+.live-card .lc-title {
+  font-family: var(--lab-display, var(--font-display));
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--color-text-primary);
+  margin-bottom: 4px;
+}
+.live-card .lc-sub {
+  font-family: var(--lab-sans, var(--font-sans));
+  font-size: 13px;
+  color: var(--color-text-tertiary);
+  line-height: 1.5;
+}
+.live-card .lc-meta {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  font-family: var(--lab-mono, var(--font-mono));
+  font-size: 11px;
+  color: var(--color-text-tertiary);
+  letter-spacing: 0.04em;
+}
+
+.live-secondary {
+  margin-top: var(--space-5);
+  background: var(--color-surface-100);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-md);
+  padding: var(--space-5);
+}
+.live-secondary h3 {
+  font-family: var(--lab-display, var(--font-display));
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  margin-bottom: var(--space-3);
+  color: var(--color-text-primary);
+}
+.live-secondary p {
+  font-family: var(--lab-sans, var(--font-sans));
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--color-text-secondary);
+  text-wrap: pretty;
+  margin-bottom: var(--space-3);
+}
+.live-secondary pre {
+  font-family: var(--lab-mono, var(--font-mono));
+  font-size: 12.5px;
+  background: var(--color-surface-50);
+  border: 1px solid var(--color-border-subtle);
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-sm);
+  color: var(--color-text-primary);
+  margin: 0;
+  white-space: pre;
+  overflow-x: auto;
+}
+
+/* ── Back link ── */
+.lab-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text-tertiary);
+  text-decoration: none;
+  margin-bottom: var(--space-5);
+  padding: 4px 10px;
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-xs);
+  background: var(--color-surface-50);
+  transition: color var(--duration-base) var(--ease-out-quart);
+}
+.lab-back:hover { color: oklch(0.78 0.13 80); border-color: color-mix(in oklch, oklch(0.78 0.13 80) 40%, transparent); }
+
+@media (max-width: 640px) {
+  .specimen-grid { grid-template-columns: 1fr; }
+  .live-card { grid-template-columns: 1fr; }
+}

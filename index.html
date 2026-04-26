@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="es" data-mode="dark" data-accent="gold">
+<head>
+<meta charset="utf-8">
+<title>Vergina Imperial · Manual de Diseño</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="colors_and_type.css?v=0.2.0">
+<link rel="stylesheet" href="color_modes.css?v=0.2.0">
+<style>
+  html, body { margin: 0; min-height: 100vh; }
+  body {
+    background: var(--color-surface-0);
+    color: var(--color-text-primary);
+    font-family: var(--font-sans);
+    letter-spacing: var(--tracking-body);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    position: relative;
+    overflow-x: hidden;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Atmósfera (mismas tres capas que showcase) */
+  .atm, .spark, .dust, .vignette {
+    position: fixed; inset: 0; pointer-events: none; z-index: 0;
+  }
+  .atm::before, .atm::after {
+    content: ""; position: absolute; border-radius: 50%; filter: blur(120px);
+  }
+  .atm::before {
+    top: -25vh; left: -10vw; width: 75vw; height: 75vw;
+    background: radial-gradient(closest-side, var(--atmosphere-haze) 0%, transparent 65%);
+    opacity: 0.55;
+  }
+  .atm::after {
+    bottom: -30vh; right: -15vw; width: 90vw; height: 90vw;
+    background: radial-gradient(closest-side, var(--atmosphere-velvet) 0%, transparent 60%);
+    opacity: 0.85;
+  }
+  .spark {
+    top: 50vh; right: 22vw;
+    width: 360px; height: 360px;
+    border-radius: 50%;
+    background: var(--accent);
+    filter: blur(140px);
+    opacity: 0.22;
+  }
+  .dust {
+    mix-blend-mode: screen;
+    opacity: 0.50;
+    background-image:
+      radial-gradient(1px 1px at 12% 18%, var(--accent-bright) 50%, transparent 51%),
+      radial-gradient(1px 1px at 78% 22%, var(--accent-bright) 50%, transparent 51%),
+      radial-gradient(1.2px 1.2px at 32% 64%, var(--accent) 50%, transparent 51%),
+      radial-gradient(1px 1px at 88% 70%, var(--accent-bright) 50%, transparent 51%),
+      radial-gradient(0.8px 0.8px at 56% 38%, var(--accent-bright) 50%, transparent 51%),
+      radial-gradient(1.5px 1.5px at 6% 86%, var(--accent) 50%, transparent 51%),
+      radial-gradient(1px 1px at 44% 92%, var(--accent-bright) 50%, transparent 51%),
+      radial-gradient(0.9px 0.9px at 70% 8%, var(--accent) 50%, transparent 51%),
+      radial-gradient(1.3px 1.3px at 22% 44%, var(--accent-bright) 50%, transparent 51%),
+      radial-gradient(1px 1px at 92% 48%, var(--accent) 50%, transparent 51%);
+  }
+  .vignette {
+    background: radial-gradient(120% 120% at 50% 50%, transparent 60%, var(--atmosphere-vignette) 100%);
+  }
+
+  main {
+    position: relative;
+    z-index: 1;
+    flex: 1;
+    max-width: 1180px;
+    margin: 0 auto;
+    width: 100%;
+    padding: clamp(64px, 10vh, 140px) clamp(24px, 5vw, 64px) 96px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .brand-row {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--color-text-tertiary);
+    margin-bottom: var(--space-12);
+  }
+  .brand-row svg { color: var(--accent); }
+  .brand-row .sep { width: 24px; height: 1px; background: var(--color-border-default); }
+
+  h1.display {
+    font-family: var(--font-display);
+    font-size: clamp(48px, 7vw, 104px);
+    font-weight: var(--weight-semibold);
+    line-height: 0.96;
+    letter-spacing: var(--tracking-display);
+    margin: 0 0 var(--space-6);
+    text-wrap: balance;
+    max-width: 16ch;
+  }
+  h1.display .fade {
+    background: linear-gradient(180deg, var(--color-text-primary) 25%, transparent 95%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+    display: inline-block;
+  }
+  .lede {
+    font-size: var(--text-xl);
+    color: var(--color-text-secondary);
+    line-height: 1.5;
+    max-width: 60ch;
+    margin: 0 0 var(--space-12);
+  }
+
+  .nav {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--space-5);
+    margin-top: var(--space-4);
+  }
+
+  .card {
+    position: relative;
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--glass-shadow);
+    padding: var(--space-6);
+    text-decoration: none;
+    color: inherit;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    transition:
+      transform var(--duration-base) var(--ease-out-expo),
+      border-color var(--duration-base) var(--ease-out-expo);
+  }
+  .card::after {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 50%;
+    background: linear-gradient(180deg, oklch(1 0 0 / 0.06), transparent);
+    pointer-events: none;
+  }
+  .card:hover {
+    transform: translateY(-2px);
+    border-color: color-mix(in oklch, var(--accent) 40%, var(--glass-border));
+  }
+  .card:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 4px;
+  }
+
+  .card .num {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    letter-spacing: 0.16em;
+    color: var(--accent);
+    font-variant-numeric: tabular-nums;
+  }
+  .card h3 {
+    font-size: var(--text-2xl);
+    font-weight: var(--weight-semibold);
+    letter-spacing: -0.025em;
+    margin: 0;
+    line-height: 1.1;
+  }
+  .card p {
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+    line-height: 1.55;
+    margin: 0;
+  }
+  .card .arrow {
+    margin-top: auto;
+    padding-top: var(--space-3);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-text-tertiary);
+    transition: color var(--duration-base) var(--ease-out-expo), gap var(--duration-base) var(--ease-out-expo);
+  }
+  .card:hover .arrow { color: var(--accent); gap: 12px; }
+
+  footer {
+    position: relative;
+    z-index: 1;
+    border-top: 1px solid var(--color-border-subtle);
+    padding: var(--space-5) clamp(24px, 5vw, 64px);
+    color: var(--color-text-tertiary);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    letter-spacing: 0.04em;
+    display: flex;
+    justify-content: space-between;
+    gap: var(--space-4);
+    background: linear-gradient(180deg,
+      transparent,
+      color-mix(in oklch, var(--color-surface-0) 55%, transparent));
+    backdrop-filter: blur(8px);
+  }
+  footer .dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 12px var(--accent);
+    display: inline-block;
+    margin-right: 8px;
+  }
+</style>
+</head>
+<body>
+  <div class="atm" aria-hidden="true"></div>
+  <div class="spark" aria-hidden="true"></div>
+  <div class="dust" aria-hidden="true"></div>
+  <div class="vignette" aria-hidden="true"></div>
+
+  <main>
+    <div class="brand-row">
+      <svg width="20" height="20" viewBox="0 0 48 48" fill="none">
+        <path d="M10 38 L24 10 L38 38" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M16 28 L32 28" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+        <circle cx="24" cy="10" r="2.25" fill="currentColor"/>
+      </svg>
+      <span>Alexendros</span>
+      <span class="sep"></span>
+      <span>Vergina Imperial · v0.2.0</span>
+    </div>
+
+    <h1 class="display">Una atmósfera. Dos brillos. <span class="fade">Un sistema.</span></h1>
+    <p class="lede">Manual de diseño dark-first para Alexendros. Atmósfera púrpura pretoriana en el fondo; oro Vergina o titanio metalizado en el primer plano. Glassmorphism por defecto. Cero decoración gratuita.</p>
+
+    <nav class="nav" aria-label="Navegación del manual">
+      <a class="card" href="showcase.html">
+        <span class="num">§ 01</span>
+        <h3>Vitrina del sistema</h3>
+        <p>Atmósfera, glass, ambos brillos lado a lado. Switch dark/light + oro/titanio en el topbar. Tokens, tipografía, componentes vivos.</p>
+        <span class="arrow">Abrir vitrina →</span>
+      </a>
+
+      <a class="card" href="slides/index.html">
+        <span class="num">§ 02</span>
+        <h3>Sample deck</h3>
+        <p>12 slides en oro y titanio sobre la atmósfera unificada. TitleSlide, SectionSlide, StatSlide, QuoteSlide, ComparisonSlide, ShowcaseGlassSlide, ClosingSlide.</p>
+        <span class="arrow">Abrir deck →</span>
+      </a>
+
+      <a class="card" href="README.md">
+        <span class="num">§ 03</span>
+        <h3>README</h3>
+        <p>Manifiesto del sistema. Cuándo oro, cuándo titanio. Activación, brand model, anti-aesthetic, índice del repo.</p>
+        <span class="arrow">Leer README →</span>
+      </a>
+
+      <a class="card" href="colors_and_type.css">
+        <span class="num">§ 04</span>
+        <h3>Tokens core</h3>
+        <p>Tipografía Geist VF, fluid scale clamp(), spacing 4 px rigid, radii, motion (ease-out-expo, spring), z-index, info semantic.</p>
+        <span class="arrow">Ver colors_and_type.css →</span>
+      </a>
+
+      <a class="card" href="color_modes.css">
+        <span class="num">§ 05</span>
+        <h3>Atmósfera & acentos</h3>
+        <p>Surface scale púrpura. Glass primitive. Acentos oro Vergina y titanio. Modo light alabastro tintado.</p>
+        <span class="arrow">Ver color_modes.css →</span>
+      </a>
+
+      <a class="card" href="SKILL.md">
+        <span class="num">§ 06</span>
+        <h3>Claude skill</h3>
+        <p>Entrypoint para Claude Code. <code style="font-family:var(--font-mono); color:var(--accent);">user-invocable: true</code>. Genera UI respetando estos tokens.</p>
+        <span class="arrow">Ver SKILL.md →</span>
+      </a>
+    </nav>
+  </main>
+
+  <footer>
+    <div><span class="dot"></span>github.com/Alexendros/vergina-imperial</div>
+    <div>dark-first · oklch · cero decoración gratuita</div>
+  </footer>
+</body>
+</html>

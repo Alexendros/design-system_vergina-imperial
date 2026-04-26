@@ -1,0 +1,304 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8"/>
+  <title>Font Lab · Atelier de Revisión</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+  <!-- ═══════════════════════════════════════════════════════════════════
+       Google Fonts — todos los candidatos cargan a la vez para comparación
+       directa. En producción se elegiría sólo uno o dos (ver §verdict).
+       ═══════════════════════════════════════════════════════════════════ -->
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&family=Sora:wght@400;500;600;700&family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700&family=Archivo+Black&family=Prompt:wght@400;500;600;700&family=Outfit:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&family=Figtree:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&family=Anonymous+Pro:wght@400;700&family=Space+Mono:wght@400;700&family=Fira+Code:wght@400;500;600;700&family=DM+Mono:wght@400;500&family=Roboto+Mono:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+
+  <!-- Tokens del sistema -->
+  <link rel="stylesheet" href="colors_and_type.css?v=3"/>
+  <link rel="stylesheet" href="color_modes.css?v=3"/>
+  <link rel="stylesheet" href="font-lab.css?v=1"/>
+</head>
+<body data-theme="dark">
+  <main class="lab-shell">
+
+    <a href="Atelier de Revisión.html" class="lab-back">← volver al atelier</a>
+
+    <!-- ── Header ── -->
+    <header class="lab-header">
+      <div>
+        <div class="lab-eyebrow">Banco de pruebas tipográficas · v0.1</div>
+        <h1 class="lab-title">Pruebas de <em>sans</em> y <em>mono</em><br/>disponibles globalmente</h1>
+      </div>
+      <div class="lab-meta">
+        20 candidatos · Google Fonts · WOFF2<br/>
+        baseline: <a href="https://vercel.com/font" target="_blank" rel="noopener">Geist</a> · <a href="https://vercel.com/font" target="_blank" rel="noopener">Geist Mono</a> (local)
+      </div>
+    </header>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         §01 · SANS — 10 candidatos
+         ═══════════════════════════════════════════════════════════════════ -->
+    <section class="lab-section">
+      <header class="lab-section-head">
+        <span class="lab-section-num">§01</span>
+        <h2 class="lab-section-title">Sans · display + body</h2>
+        <span class="lab-section-sub">títulos, párrafos y números — todo el espectro de uso</span>
+      </header>
+
+      <div class="specimen-grid" id="sans-grid"></div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         §02 · MONO — 10 candidatos
+         ═══════════════════════════════════════════════════════════════════ -->
+    <section class="lab-section">
+      <header class="lab-section-head">
+        <span class="lab-section-num">§02</span>
+        <h2 class="lab-section-title">Mono · UI chrome + código</h2>
+        <span class="lab-section-sub">labels, valores numéricos tabulares, bloques de código</span>
+      </header>
+
+      <div class="specimen-grid" id="mono-grid"></div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         §03 · LIVE — preview en contexto real
+         ═══════════════════════════════════════════════════════════════════ -->
+    <section class="lab-section">
+      <header class="lab-section-head">
+        <span class="lab-section-num">§03</span>
+        <h2 class="lab-section-title">Vista en contexto · card de Atelier</h2>
+        <span class="lab-section-sub">cualquier combinación, en el componente real</span>
+      </header>
+
+      <div class="live-preview">
+        <div class="live-controls">
+          <div class="live-group">
+            <label for="pick-display">display</label>
+            <select id="pick-display"></select>
+          </div>
+          <div class="live-group">
+            <label for="pick-sans">sans</label>
+            <select id="pick-sans"></select>
+          </div>
+          <div class="live-group">
+            <label for="pick-mono">mono</label>
+            <select id="pick-mono"></select>
+          </div>
+        </div>
+
+        <div class="live-card" id="live-card">
+          <div class="lc-thumb">
+            <svg viewBox="0 0 48 48" width="32" height="32" fill="none" aria-hidden="true">
+              <path d="M10 38 L24 10 L38 38" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M16 28 L32 28" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+              <circle cx="24" cy="10" r="2.25" fill="currentColor"/>
+            </svg>
+          </div>
+          <div>
+            <div class="lc-title">Logomark · Alexendros</div>
+            <div class="lc-sub">Trazo de tres golpes. Hereda currentColor en chrome.</div>
+          </div>
+          <div class="lc-meta">
+            <span>v0.2.0</span>
+            <span>·</span>
+            <span>hace 15d</span>
+          </div>
+        </div>
+
+        <div class="live-secondary">
+          <h3>Una atmósfera, dos brillos</h3>
+          <p>Vergina Imperial es la combinación de oro envejecido sobre la atmósfera pretoriana — opcionalmente recubierta de titanio. La voz del producto es precisa, sobria, sin signos de admiración. Microcopy en infinitivo.</p>
+          <pre><span class="tok-cmt">// tokens — material truth</span>
+<span class="tok-key">const</span> tokens = {
+  vergina:  <span class="tok-str">"oklch(0.78 0.13 80)"</span>,  <span class="tok-cmt">// gold</span>
+  titanium: <span class="tok-str">"oklch(0.86 0.012 270)"</span>,
+  contrast: <span class="tok-num">5.04</span>                     <span class="tok-cmt">// AA✓</span>
+};</pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         §04 · VERDICT — recomendaciones
+         ═══════════════════════════════════════════════════════════════════ -->
+    <section class="verdict">
+      <div class="verdict-eyebrow">§04 · veredicto</div>
+      <h2 class="verdict-title">Las más eficientes — y por qué</h2>
+
+      <div class="verdict-grid">
+        <div class="verdict-card">
+          <div class="verdict-role">Display · titulares</div>
+          <div class="verdict-pick">Bricolage Grotesque</div>
+          <p class="verdict-reason">Variable optical-size: a 12px se siente neutra, a 96px gana presencia editorial sin volverse decorativa. Tracking ajustado en negativo en grandes pesos. Mantiene la "transformación silenciosa" del arquetipo Craftsman × Magician.</p>
+          <div class="verdict-pair">peso: <strong>~38 KB</strong> · variable · cobertura latín-ext</div>
+        </div>
+
+        <div class="verdict-card">
+          <div class="verdict-role">Sans · body / UI</div>
+          <div class="verdict-pick">Manrope</div>
+          <p class="verdict-reason">x-height alta, terminales rectas, sin chillonería. Lee mejor que Geist a 13–14 px en bloques largos. Cinco pesos sin penalización. Alternativa más cálida: Plus Jakarta Sans; más mecánica: Space Grotesk.</p>
+          <div class="verdict-pair">peso: <strong>~28 KB / peso</strong> · 200–800 · latín completo</div>
+        </div>
+
+        <div class="verdict-card">
+          <div class="verdict-role">Mono · UI chrome</div>
+          <div class="verdict-pick">JetBrains Mono</div>
+          <p class="verdict-reason">Calibrada explícitamente para legibilidad a 11–12 px. Cifras tabulares perfectas, "0" cortado, "I/l/1" inequívocos. Más aire que IBM Plex Mono, más sobrio que Space Mono. Reemplaza Geist Mono sin pérdida.</p>
+          <div class="verdict-pair">peso: <strong>~32 KB / peso</strong> · ligaturas opcionales · latín-ext</div>
+        </div>
+
+        <div class="verdict-card" data-style="alt">
+          <div class="verdict-role">Pareja oficial recomendada</div>
+          <div class="verdict-pick">Bricolage + Manrope + JetBrains Mono</div>
+          <p class="verdict-reason">Combo total ~120 KB con preconnect. Las tres en Google Fonts CDN, todas con licencia OFL — distribución global, cache compartido. Fall-back a system-ui sin saltos visibles.</p>
+          <div class="verdict-pair">total cargado: <strong>~120 KB</strong> · 3 familias · OFL</div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ═══════════════════════════════════════════════════════════════════
+       Datos + render — un solo bloque, sin React. Más rápido para un lab.
+       ═══════════════════════════════════════════════════════════════════ -->
+  <script>
+    // Stack strings use SINGLE quotes inside so they survive inline style="..." parsing.
+    const SANS = [
+      { name: "Geist (baseline)",       stack: "'Geist', -apple-system, sans-serif", source: "local",  tags: ["base", "variable"] },
+      { name: "Space Grotesk",          stack: "'Space Grotesk', sans-serif",        source: "google", tags: ["geométrica", "carácter"], rec: true },
+      { name: "Manrope",                stack: "'Manrope', sans-serif",              source: "google", tags: ["neutral", "x-height alto"], rec: true },
+      { name: "Sora",                   stack: "'Sora', sans-serif",                 source: "google", tags: ["display", "moderna"] },
+      { name: "Bricolage Grotesque",    stack: "'Bricolage Grotesque', sans-serif",  source: "google", tags: ["variable", "opsz"], rec: true },
+      { name: "Archivo Black",          stack: "'Archivo Black', sans-serif",        source: "google", tags: ["display only", "single-weight"], warn: ["sólo 400"] },
+      { name: "Prompt",                 stack: "'Prompt', sans-serif",               source: "google", tags: ["latín + tailandés"] },
+      { name: "Outfit",                 stack: "'Outfit', sans-serif",               source: "google", tags: ["geométrica", "neutra"] },
+      { name: "Plus Jakarta Sans",      stack: "'Plus Jakarta Sans', sans-serif",    source: "google", tags: ["humanista", "cálida"] },
+      { name: "DM Sans",                stack: "'DM Sans', sans-serif",              source: "google", tags: ["compacta", "legible"] },
+      { name: "Figtree",                stack: "'Figtree', sans-serif",              source: "google", tags: ["amigable", "open"] }
+    ];
+
+    const MONO = [
+      { name: "Geist Mono (baseline)",  stack: "'Geist Mono', monospace",     source: "local",  tags: ["base", "variable"] },
+      { name: "JetBrains Mono",         stack: "'JetBrains Mono', monospace", source: "google", tags: ["calibrada IDE", "ligaturas"], rec: true },
+      { name: "IBM Plex Mono",          stack: "'IBM Plex Mono', monospace",  source: "google", tags: ["corporativa", "precisa"] },
+      { name: "Anonymous Pro",          stack: "'Anonymous Pro', monospace",  source: "google", tags: ["terminal clásica", "carácter"] },
+      { name: "Space Mono",             stack: "'Space Mono', monospace",     source: "google", tags: ["slab", "carácter"], warn: ["sólo 400/700"] },
+      { name: "Fira Code",              stack: "'Fira Code', monospace",      source: "google", tags: ["ligaturas avanzadas"] },
+      { name: "DM Mono",                stack: "'DM Mono', monospace",        source: "google", tags: ["minimal", "ligero"], warn: ["300/400/500"] },
+      { name: "Roboto Mono",            stack: "'Roboto Mono', monospace",    source: "google", tags: ["neutral", "ubícua"] }
+    ];
+
+    const SAMPLE_DISPLAY = "Vergina Imperial";
+    const SAMPLE_H2 = "Una atmósfera, dos brillos.";
+    const SAMPLE_BODY = "El producto habla en tono bajo y entrega mecanismos, no espectáculo. Microcopy en infinitivo o sustantivo corto. Sin signos de admiración. Sin emoji en UI.";
+    const SAMPLE_NUM = "<span>0123456789</span><span>·</span><span>·1.42×</span><span>·</span><span>5.04 : 1</span>";
+
+    const SAMPLE_CODE = `<span class="tok-cmt">// tokens — material truth</span>
+<span class="tok-key">const</span> tokens = {
+  vergina:  <span class="tok-str">"oklch(0.78 .13 80)"</span>,
+  titanium: <span class="tok-str">"oklch(0.86 .01 270)"</span>,
+  contrast: <span class="tok-num">5.04</span>  <span class="tok-cmt">// AA ✓</span>
+};`;
+
+    const SAMPLE_INLINE = 'Inspecciona <code>--accent-shimmer</code>, ajusta <code>oklch(0.78 0.13 80)</code> y verifica que <code>I·l·1·0·O</code> permanezcan inequívocos a 11px.';
+
+    function tagsHTML(tags = [], warns = []) {
+      const t = tags.map(t => `<span class="spec-tag" data-positive="true">${t}</span>`).join("");
+      const w = warns.map(t => `<span class="spec-tag" data-warning="true">${t}</span>`).join("");
+      return t + w;
+    }
+
+    function sansSpecimen(f) {
+      return `
+        <article class="specimen" data-recommended="${!!f.rec}" style="--lab-display:${f.stack}; --lab-sans:${f.stack}">
+          <header class="specimen-head">
+            <div class="specimen-name" style="font-family:${f.stack}">${f.name}</div>
+            <div class="specimen-source" data-source="${f.source}">${f.source}</div>
+          </header>
+
+          <div class="sample-row">
+            <div class="sample-label">display · 36 / -0.035 / 600</div>
+            <div class="sample-display" style="font-family:${f.stack}">${SAMPLE_DISPLAY}</div>
+          </div>
+
+          <div class="sample-row">
+            <div class="sample-label">h2 · 22 / 600</div>
+            <div class="sample-h2" style="font-family:${f.stack}">${SAMPLE_H2}</div>
+          </div>
+
+          <div class="sample-row">
+            <div class="sample-label">body · 14 / 1.55</div>
+            <div class="sample-body" style="font-family:${f.stack}">${SAMPLE_BODY}</div>
+          </div>
+
+          <div class="sample-row">
+            <div class="sample-label">numeric · tnum</div>
+            <div class="sample-numeric" style="font-family:${f.stack}">${SAMPLE_NUM}</div>
+          </div>
+
+          <footer class="specimen-foot">${tagsHTML(f.tags, f.warn)}</footer>
+        </article>`;
+    }
+
+    function monoSpecimen(f) {
+      return `
+        <article class="specimen" data-recommended="${!!f.rec}" style="--lab-mono:${f.stack}">
+          <header class="specimen-head">
+            <div class="specimen-name" style="font-family:${f.stack}; letter-spacing:0">${f.name}</div>
+            <div class="specimen-source" data-source="${f.source}">${f.source}</div>
+          </header>
+
+          <div class="sample-row">
+            <div class="sample-label">code block · 12.5 / 1.6</div>
+            <pre class="sample-code" style="font-family:${f.stack}">${SAMPLE_CODE}</pre>
+          </div>
+
+          <div class="sample-row">
+            <div class="sample-label">inline + chrome</div>
+            <div class="sample-inline">${SAMPLE_INLINE.replace(/<code>/g, `<code style="font-family:${f.stack}">`)}</div>
+          </div>
+
+          <div class="sample-row">
+            <div class="sample-label">numeric · tnum · 18px</div>
+            <div class="sample-numeric" style="font-family:${f.stack}">${SAMPLE_NUM}</div>
+          </div>
+
+          <div class="sample-row">
+            <div class="sample-label">disambiguation · I l 1 · 0 O · g q · ; :</div>
+            <div style="font-family:${f.stack}; font-size:18px; color:var(--color-text-primary); letter-spacing:0.04em">I l 1 · 0 O · g q · ; : · {} () [] · → ← ⇒</div>
+          </div>
+
+          <footer class="specimen-foot">${tagsHTML(f.tags, f.warn)}</footer>
+        </article>`;
+    }
+
+    document.getElementById("sans-grid").innerHTML = SANS.map(sansSpecimen).join("");
+    document.getElementById("mono-grid").innerHTML = MONO.map(monoSpecimen).join("");
+
+    // ── Live picker ──────────────────────────────────────────
+    const $disp = document.getElementById("pick-display");
+    const $sans = document.getElementById("pick-sans");
+    const $mono = document.getElementById("pick-mono");
+
+    SANS.forEach((f, i) => {
+      $disp.insertAdjacentHTML("beforeend", `<option value="${i}"${f.rec ? " selected" : ""}>${f.name}</option>`);
+      $sans.insertAdjacentHTML("beforeend", `<option value="${i}"${f.name === "Manrope" ? " selected" : ""}>${f.name}</option>`);
+    });
+    MONO.forEach((f, i) => {
+      $mono.insertAdjacentHTML("beforeend", `<option value="${i}"${f.rec ? " selected" : ""}>${f.name}</option>`);
+    });
+
+    function applyLive() {
+      const root = document.documentElement;
+      root.style.setProperty("--lab-display", SANS[$disp.value].stack);
+      root.style.setProperty("--lab-sans", SANS[$sans.value].stack);
+      root.style.setProperty("--lab-mono", MONO[$mono.value].stack);
+    }
+    $disp.addEventListener("change", applyLive);
+    $sans.addEventListener("change", applyLive);
+    $mono.addEventListener("change", applyLive);
+    applyLive();
+  </script>
+</body>
+</html>

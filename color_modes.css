@@ -1,0 +1,276 @@
+/* =========================================================================
+   Manual de Diseño · Vergina Imperial — Sistema unificado (v0.2.0)
+   =========================================================================
+
+   Una sola atmósfera (púrpura pretoriana aterciopelada) y dos acentos
+   metálicos (oro Vergina · titanio). Lo que antes eran tres gamas
+   alternativas pasa a ser **un sistema con dos brillos**.
+
+   Activación:
+     <html data-mode="deep">                    →  base oscura (default)
+     <html data-mode="bright">                  →  base alabastro
+     <html ... data-accent="gold | titanium">   →  qué metal lleva el acento
+
+   El elemento outer puede no declarar nada — el default es
+   data-mode="deep" + data-accent="gold".
+
+   Aliases legacy — `dark` y `light` siguen funcionando como sinónimos
+   transitorios de `deep` y `bright` mientras se migran consumidores.
+
+   Las variables compartidas (tipografía, spacing, radii, motion) viven
+   en `colors_and_type.css`. Aquí solo se define la atmósfera y los
+   acentos metálicos.
+
+   ─────────────────────────────────────────────────────────────────────
+   APLICACIÓN — cuándo oro, cuándo titanio
+   ─────────────────────────────────────────────────────────────────────
+
+   ORO VERGINA (default · data-accent="gold")
+     · Memoria, valor, firma, declaración.
+     · Cifras-trofeo, citas, aperturas y cierres de sección.
+     · Marca primaria de productos identitarios — alexendros.me, manuales,
+       cartas de principios.
+     · Botones primary, focus rings de acción comprometida.
+
+   TITANIO (data-accent="titanium")
+     · Maquinaria, dato, telemetría, frialdad técnica.
+     · Métricas operativas, ratios, gráficas densas, dashboards de mando.
+     · Marca de productos de instrumento — Controlink, alexendros.pro,
+       superficies que muestran sistemas en funcionamiento.
+     · Botones de acción procedimental, focus rings de input numérico.
+
+   REGLA: el acento es propiedad de la **superficie**, no del componente.
+   Una vista entera vive en oro o en titanio. No se mezclan dentro de la
+   misma pantalla — esa decisión se toma a nivel de producto y se hereda.
+   ========================================================================= */
+
+
+/* ── DARK · base · atmósfera púrpura ─────────────────────────────────── */
+
+:root,
+[data-mode="deep"],
+[data-mode="dark"] {
+  /* Atmósfera — la superficie nunca se ve "plana". El púrpura habita
+     el fondo en cuatro pasos de luminosidad sobre hue 315. */
+  --color-surface-0:    oklch(0.10 0.014 315);   /* noche profunda */
+  --color-surface-50:   oklch(0.12 0.016 315);
+  --color-surface-100:  oklch(0.14 0.018 315);   /* card base */
+  --color-surface-200:  oklch(0.17 0.020 315);
+  --color-surface-300:  oklch(0.20 0.022 315);   /* border subtle */
+  --color-surface-400:  oklch(0.23 0.024 315);
+  --color-surface-500:  oklch(0.26 0.026 315);   /* border default */
+  --color-surface-600:  oklch(0.29 0.028 315);
+  --color-surface-700:  oklch(0.33 0.030 315);   /* border strong */
+  --color-surface-800:  oklch(0.37 0.032 315);
+  --color-surface-900:  oklch(0.42 0.034 315);
+
+  /* Atmósfera — focos del PurpleAtmosphere (terciopelo + niebla) */
+  --atmosphere-haze:    oklch(0.32 0.090 318);   /* foco frío esquina alta */
+  --atmosphere-velvet:  oklch(0.18 0.060 315);   /* wash aterciopelado */
+  --atmosphere-vignette: oklch(0.04 0.020 315);  /* viñeta exterior */
+
+  /* Texto — neutro tintado púrpura mínimo */
+  --color-text-primary:   oklch(0.97 0.008 310);
+  --color-text-secondary: oklch(0.80 0.010 310);
+  --color-text-tertiary:  oklch(0.62 0.012 310);
+  --color-text-disabled:  oklch(0.46 0.014 310);
+  --color-text-inverse:   oklch(0.07 0.012 315);
+
+  /* Borders */
+  --color-border-subtle:  var(--color-surface-300);
+  --color-border-default: var(--color-surface-500);
+  --color-border-strong:  var(--color-surface-700);
+  --color-border-focus:   var(--accent);
+
+  /* Glass primitive — paneles translúcidos sobre la atmósfera */
+  --glass-bg: linear-gradient(
+    140deg,
+    oklch(1 0 0 / 0.06) 0%,
+    oklch(1 0 0 / 0.02) 50%,
+    oklch(1 0 0 / 0.04) 100%
+  );
+  --glass-border:   oklch(1 0 0 / 0.08);
+  --glass-blur:     blur(20px) saturate(140%);
+  --glass-shadow:
+    inset 0 1px 0 oklch(1 0 0 / 0.10),
+    0 30px 80px -20px oklch(0 0 0 / 0.55);
+
+  /* Estados semánticos */
+  --color-success-fg:     oklch(0.78 0.16 130);
+  --color-success-bg:     oklch(0.20 0.06 130);
+  --color-success-border: oklch(0.40 0.12 130);
+
+  --color-warning-fg:     oklch(0.82 0.16 82);
+  --color-warning-bg:     oklch(0.22 0.06 82);
+  --color-warning-border: oklch(0.42 0.12 82);
+
+  --color-error-fg:       oklch(0.72 0.22 25);
+  --color-error-bg:       oklch(0.22 0.07 25);
+  --color-error-border:   oklch(0.42 0.16 25);
+
+  color-scheme: dark;
+}
+
+
+/* ── ACENTO · ORO VERGINA (default) ──────────────────────────────────── */
+
+:root,
+[data-accent="gold"] {
+  --accent:        oklch(0.78 0.165 85);   /* oro batido helénico */
+  --accent-dim:    oklch(0.62 0.130 85);   /* oro grave */
+  --accent-bright: oklch(0.92 0.100 88);   /* brillo alto */
+  --accent-fg:     oklch(0.12 0.014 50);   /* tinta cálida sobre oro */
+
+  /* Shimmer vertical — usado por GradientText.vap-shimmer */
+  --accent-shimmer: linear-gradient(
+    180deg,
+    oklch(0.92 0.10 88) 0%,
+    oklch(0.82 0.165 85) 38%,
+    oklch(0.62 0.13 85) 70%,
+    oklch(0.78 0.155 85) 100%
+  );
+
+  /* Glow — halo metálico cálido */
+  --shadow-glow-accent: 0 0 56px color-mix(in oklch, var(--accent) 32%, transparent);
+
+  /* Alias de marca — para componentes que lean tokens "brand" */
+  --color-brand-primary:    var(--accent);
+  --color-brand-primary-hc: var(--accent);  /* AA sobre surface-0: 9.85:1 */
+  --color-brand-primary-fg: var(--accent-fg);
+  --color-brand-accent:     var(--accent-dim);
+  --color-brand-accent-fg:  var(--accent-fg);
+}
+
+
+/* ── ACENTO · TITANIO METALIZADO ─────────────────────────────────────── */
+
+[data-accent="titanium"] {
+  --accent:        oklch(0.86 0.012 270);  /* titanio claro */
+  --accent-dim:    oklch(0.68 0.014 260);  /* titanio sombra */
+  --accent-bright: oklch(0.95 0.005 270);  /* brillo perlado */
+  --accent-fg:     oklch(0.10 0.008 270);  /* tinta neutra fría */
+
+  /* Shimmer titanio — cinco paradas de luminosidad sobre hue ~270.
+     Hue varía levemente (240→270) para simular reflejo no-lineal. */
+  --accent-shimmer: linear-gradient(
+    180deg,
+    oklch(0.95 0.005 270) 0%,
+    oklch(0.78 0.008 250) 30%,
+    oklch(0.55 0.010 240) 55%,
+    oklch(0.72 0.012 270) 78%,
+    oklch(0.92 0.006 270) 100%
+  );
+
+  /* Glow — perlado, sin temperatura cromática */
+  --shadow-glow-accent: 0 0 48px color-mix(in oklch, var(--accent) 26%, transparent);
+
+  --color-brand-primary:    var(--accent);
+  --color-brand-primary-hc: var(--accent);  /* AA sobre surface-0: ~10:1 */
+  --color-brand-primary-fg: var(--accent-fg);
+  --color-brand-accent:     var(--accent-dim);
+  --color-brand-accent-fg:  var(--accent-fg);
+}
+
+
+/* ── LIGHT · alabastro tintado en oro Vergina + naranja amanecer ────────
+   El púrpura sale de la base. La superficie se queda en familia cálida
+   (hue 70–80, oro/ámbar). El púrpura sobrevive sólo donde corresponde:
+   selecciones, focus, marcadores — invocado caso por caso desde
+   --color-highlight-* más abajo. */
+
+[data-mode="bright"],
+[data-mode="light"] {
+  /* Surface — alabastro con tinte oro Vergina muy sutil. Nunca blanco puro. */
+  --color-surface-0:    oklch(0.97 0.014 80);    /* alabastro cálido */
+  --color-surface-50:   oklch(0.95 0.018 78);
+  --color-surface-100:  oklch(0.93 0.022 76);
+  --color-surface-200:  oklch(0.90 0.026 74);
+  --color-surface-300:  oklch(0.86 0.030 72);
+  --color-surface-400:  oklch(0.80 0.034 70);
+  --color-surface-500:  oklch(0.72 0.038 68);
+  --color-surface-600:  oklch(0.62 0.042 66);
+  --color-surface-700:  oklch(0.50 0.044 64);
+  --color-surface-800:  oklch(0.38 0.040 62);
+  --color-surface-900:  oklch(0.26 0.034 60);
+
+  /* Atmósfera — bruma de amanecer (hue 55, naranja-melocotón muy suave) */
+  --atmosphere-haze:    oklch(0.88 0.060 62);
+  --atmosphere-velvet:  oklch(0.82 0.052 58);
+  --atmosphere-vignette: oklch(0.86 0.024 70);
+
+  /* Texto — tinta cálida (caoba/sepia oscuro), nunca negro puro */
+  --color-text-primary:   oklch(0.22 0.028 60);
+  --color-text-secondary: oklch(0.40 0.030 62);
+  --color-text-tertiary:  oklch(0.56 0.030 64);
+  --color-text-disabled:  oklch(0.72 0.022 66);
+  --color-text-inverse:   oklch(0.97 0.014 80);
+
+  --color-border-subtle:  oklch(0.89 0.022 72);
+  --color-border-default: oklch(0.81 0.028 70);
+  --color-border-strong:  oklch(0.68 0.032 68);
+
+  /* Highlights · púrpura sólo aquí. Se invoca con caret-color, ::selection,
+     marcas de búsqueda, badges puntuales. NO se usa en fondos ni borders. */
+  --color-highlight-50:  oklch(0.92 0.040 305);
+  --color-highlight-100: oklch(0.84 0.080 305);
+  --color-highlight-300: oklch(0.62 0.150 305);  /* púrpura realce */
+  --color-highlight-500: oklch(0.46 0.180 305);  /* púrpura tinta */
+  --color-highlight-fg:  oklch(0.97 0.012 305);
+
+  /* Glass para light — más blanco, menos saturación */
+  --glass-bg: linear-gradient(
+    140deg,
+    oklch(1 0 0 / 0.55) 0%,
+    oklch(1 0 0 / 0.30) 50%,
+    oklch(1 0 0 / 0.45) 100%
+  );
+  --glass-border:   oklch(0.30 0.030 60 / 0.10);
+  --glass-blur:     blur(16px) saturate(120%);
+  --glass-shadow:
+    inset 0 1px 0 oklch(1 0 0 / 0.50),
+    0 24px 60px -16px oklch(0.30 0.030 60 / 0.20);
+
+  color-scheme: light;
+
+  /* Selección y caret — aquí sí entra el púrpura, como tinta de realce */
+  ::selection { background-color: var(--color-highlight-100); color: var(--color-text-primary); }
+  caret-color: var(--color-highlight-300);
+}
+
+/* En light, los acentos se oscurecen para conservar contraste */
+[data-mode="bright"][data-accent="gold"],
+[data-mode="bright"]:not([data-accent="titanium"]),
+[data-mode="light"][data-accent="gold"],
+[data-mode="light"]:not([data-accent="titanium"]) {
+  --accent:        oklch(0.60 0.15 75);    /* oro envejecido */
+  --accent-dim:    oklch(0.44 0.15 72);    /* oro quemado */
+  --accent-bright: oklch(0.72 0.14 78);
+  --accent-fg:     oklch(0.98 0.008 85);
+
+  --color-brand-primary:    var(--accent);
+  --color-brand-primary-hc: var(--accent-dim);  /* AA sobre alabastro: 5.04:1 */
+  --color-brand-primary-fg: var(--accent-fg);
+  --color-brand-accent:     var(--accent-dim);
+}
+
+[data-mode="bright"][data-accent="titanium"],
+[data-mode="light"][data-accent="titanium"] {
+  --accent:        oklch(0.55 0.012 260);  /* titanio cepillado oscurecido */
+  --accent-dim:    oklch(0.42 0.014 255);  /* titanio sombra */
+  --accent-bright: oklch(0.72 0.010 270);
+  --accent-fg:     oklch(0.98 0.005 270);
+
+  --color-brand-primary:    var(--accent);
+  --color-brand-primary-hc: var(--accent-dim);  /* AA sobre alabastro: ~5.4:1 */
+  --color-brand-primary-fg: var(--accent-fg);
+  --color-brand-accent:     var(--accent-dim);
+}
+
+
+/* ── Auto via prefers-color-scheme ──────────────────────────────────── */
+
+@media (prefers-color-scheme: light) {
+  [data-mode="auto"] {
+    /* re-trigger */
+  }
+}

@@ -1,0 +1,1081 @@
+<!DOCTYPE html>
+<html lang="es" data-mode="dark" data-accent="gold">
+<head>
+<meta charset="utf-8">
+<title>Vergina Imperial · Vitrina del sistema</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="colors_and_type.css?v=0.2.0">
+<link rel="stylesheet" href="color_modes.css?v=0.2.0">
+<style>
+  /* ──────────────────────────────────────────────────────────────────
+     Atmósfera (capa fija de página) — púrpura pretoriana en tres focos
+     + polvo metálico que reacciona al accent activo.
+     ─────────────────────────────────────────────────────────────── */
+  html, body { margin: 0; min-height: 100%; }
+  body {
+    background: var(--color-surface-0);
+    color: var(--color-text-primary);
+    font-family: var(--font-sans);
+    letter-spacing: var(--tracking-body);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    position: relative;
+    overflow-x: hidden;
+  }
+
+  /* Capa 1 — focos radiales (haze frío + velvet aterciopelado) */
+  .atm {
+    position: fixed; inset: 0;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .atm::before, .atm::after {
+    content: ""; position: absolute;
+    border-radius: 50%;
+    filter: blur(120px);
+  }
+  .atm::before {
+    top: -25vh; left: -10vw;
+    width: 75vw; height: 75vw;
+    background: radial-gradient(closest-side, var(--atmosphere-haze) 0%, transparent 65%);
+    opacity: 0.55;
+  }
+  .atm::after {
+    bottom: -30vh; right: -15vw;
+    width: 90vw; height: 90vw;
+    background: radial-gradient(closest-side, var(--atmosphere-velvet) 0%, transparent 60%);
+    opacity: 0.85;
+  }
+
+  /* Capa 2 — chispa de acento que reacciona al data-accent del root */
+  .spark {
+    position: fixed;
+    top: 65vh; right: 18vw;
+    width: 320px; height: 320px;
+    border-radius: 50%;
+    background: var(--accent);
+    filter: blur(140px);
+    opacity: 0.20;
+    pointer-events: none;
+    z-index: 0;
+    transition: background var(--duration-slower) var(--ease-out-expo),
+                opacity var(--duration-slower) var(--ease-out-expo);
+  }
+  [data-mode="light"] .spark { opacity: 0.40; }
+
+  /* Capa 3 — polvo metálico (radial-gradients tile-eados, mix-blend screen) */
+  .dust {
+    position: fixed; inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    mix-blend-mode: screen;
+    opacity: 0.55;
+    background-image:
+      radial-gradient(1px 1px at 12% 18%,  var(--accent-bright) 50%, transparent 51%),
+      radial-gradient(1px 1px at 78% 22%,  var(--accent-bright) 50%, transparent 51%),
+      radial-gradient(1.2px 1.2px at 32% 64%, var(--accent) 50%, transparent 51%),
+      radial-gradient(1px 1px at 88% 70%,  var(--accent-bright) 50%, transparent 51%),
+      radial-gradient(0.8px 0.8px at 56% 38%, var(--accent-bright) 50%, transparent 51%),
+      radial-gradient(1.5px 1.5px at 6% 86%, var(--accent) 50%, transparent 51%),
+      radial-gradient(1px 1px at 44% 92%,  var(--accent-bright) 50%, transparent 51%),
+      radial-gradient(0.9px 0.9px at 70% 8%, var(--accent) 50%, transparent 51%),
+      radial-gradient(1.3px 1.3px at 22% 44%, var(--accent-bright) 50%, transparent 51%),
+      radial-gradient(1px 1px at 92% 48%,  var(--accent) 50%, transparent 51%);
+    transition: opacity var(--duration-slower) var(--ease-out-expo);
+  }
+  [data-mode="light"] .dust { opacity: 0.30; mix-blend-mode: multiply; }
+
+  /* Viñeta exterior — sutilísima, ata la atmósfera */
+  .vignette {
+    position: fixed; inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    background: radial-gradient(120% 120% at 50% 50%,
+      transparent 60%, var(--atmosphere-vignette) 100%);
+  }
+
+  /* ──────────────────────────────────────────────────────────────────
+     Topbar sticky con switches mode + accent
+     ─────────────────────────────────────────────────────────────── */
+  .topbar {
+    position: sticky; top: 0;
+    z-index: var(--z-sticky);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-6);
+    padding: var(--space-3) clamp(var(--space-6), 4vw, var(--space-12));
+    background: linear-gradient(180deg,
+      color-mix(in oklch, var(--color-surface-0) 92%, transparent),
+      color-mix(in oklch, var(--color-surface-0) 55%, transparent));
+    backdrop-filter: blur(16px) saturate(140%);
+    -webkit-backdrop-filter: blur(16px) saturate(140%);
+    border-bottom: 1px solid var(--color-border-subtle);
+  }
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-weight: var(--weight-semibold);
+    letter-spacing: -0.012em;
+    font-size: var(--text-sm);
+  }
+  .brand svg { color: var(--accent); transition: color var(--duration-slower) var(--ease-out-expo); }
+  .brand .mono {
+    font-family: var(--font-mono);
+    color: var(--color-text-tertiary);
+    font-weight: var(--weight-regular);
+    margin-left: var(--space-2);
+    font-size: var(--text-xs);
+    letter-spacing: 0;
+  }
+
+  .controls {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-3);
+  }
+  .seg {
+    display: inline-flex;
+    background: linear-gradient(140deg, oklch(1 0 0 / 0.04), oklch(1 0 0 / 0.01));
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-full);
+    padding: 3px;
+    box-shadow: var(--shadow-inner-highlight);
+  }
+  [data-mode="light"] .seg {
+    background: linear-gradient(140deg, oklch(1 0 0 / 0.50), oklch(1 0 0 / 0.20));
+  }
+  .seg button {
+    appearance: none;
+    border: none;
+    background: transparent;
+    color: var(--color-text-tertiary);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 6px 14px;
+    border-radius: var(--radius-full);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: color var(--duration-fast) var(--ease-out-quart),
+                background var(--duration-base) var(--ease-out-expo);
+  }
+  .seg button:hover { color: var(--color-text-secondary); }
+  .seg button[aria-pressed="true"] {
+    background: var(--color-surface-200);
+    color: var(--color-text-primary);
+    box-shadow: inset 0 0 0 1px var(--color-border-default);
+  }
+  .seg button[aria-pressed="true"] .swatch {
+    box-shadow: 0 0 12px var(--accent);
+  }
+  .seg button:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+  .swatch {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: var(--swatch);
+  }
+
+  /* ──────────────────────────────────────────────────────────────────
+     Layout
+     ─────────────────────────────────────────────────────────────── */
+  main {
+    position: relative;
+    z-index: 1;
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: clamp(48px, 8vw, 128px) clamp(var(--space-6), 5vw, var(--space-12)) var(--space-24);
+  }
+
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: var(--accent);
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+  }
+  .eyebrow::before {
+    content: "";
+    width: 24px; height: 1px;
+    background: var(--accent);
+    opacity: 0.8;
+  }
+
+  h1.display {
+    font-family: var(--font-display);
+    font-size: clamp(56px, 8vw, 120px);
+    font-weight: var(--weight-semibold);
+    line-height: 0.96;
+    letter-spacing: var(--tracking-display);
+    margin: var(--space-4) 0 var(--space-5);
+    text-wrap: balance;
+    max-width: 18ch;
+  }
+  h1.display .fade {
+    background: linear-gradient(180deg,
+      var(--color-text-primary) 25%,
+      transparent 95%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+    display: inline-block;
+  }
+  .lede {
+    font-size: var(--text-xl);
+    color: var(--color-text-secondary);
+    line-height: 1.5;
+    max-width: 60ch;
+    text-wrap: pretty;
+    margin: 0 0 var(--space-12);
+  }
+
+  h2.section {
+    font-size: clamp(32px, 4vw, 56px);
+    font-weight: var(--weight-semibold);
+    letter-spacing: var(--tracking-heading);
+    line-height: 1.05;
+    margin: var(--space-24) 0 var(--space-2);
+    text-wrap: balance;
+  }
+  h2.section .num {
+    font-family: var(--font-mono);
+    font-size: 0.4em;
+    color: var(--color-text-tertiary);
+    margin-right: var(--space-4);
+    letter-spacing: 0.08em;
+    vertical-align: middle;
+  }
+  .section-sub {
+    font-size: var(--text-base);
+    color: var(--color-text-secondary);
+    max-width: 60ch;
+    margin: 0 0 var(--space-10);
+  }
+
+  /* ──────────────────────────────────────────────────────────────────
+     Glass card primitive (vive en tokens —glass-bg/border/blur/shadow)
+     ─────────────────────────────────────────────────────────────── */
+  .glass {
+    position: relative;
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--glass-shadow);
+    overflow: hidden;
+  }
+  .glass::after {
+    /* sheen interno superior */
+    content: "";
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 50%;
+    background: linear-gradient(180deg,
+      oklch(1 0 0 / 0.06) 0%,
+      transparent 100%);
+    pointer-events: none;
+  }
+  [data-mode="light"] .glass::after {
+    background: linear-gradient(180deg, oklch(1 0 0 / 0.4), transparent);
+  }
+
+  /* ──────────────────────────────────────────────────────────────────
+     §01 Atmósfera — hero glass panel con ambos brillos
+     ─────────────────────────────────────────────────────────────── */
+  .hero-panel {
+    padding: clamp(32px, 4vw, 56px);
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: clamp(32px, 4vw, 64px);
+    margin-top: var(--space-10);
+  }
+  @media (max-width: 880px) { .hero-panel { grid-template-columns: 1fr; } }
+
+  .principle {
+    display: flex;
+    gap: var(--space-3);
+    align-items: flex-start;
+    padding: var(--space-3) 0;
+    border-top: 1px solid var(--color-border-subtle);
+  }
+  .principle:first-of-type { border-top: none; padding-top: 0; }
+  .principle .marker {
+    flex: none;
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    letter-spacing: 0.08em;
+    color: var(--accent);
+    width: 28px;
+    padding-top: 2px;
+    font-variant-numeric: tabular-nums;
+  }
+  .principle h4 {
+    font-size: var(--text-base);
+    font-weight: var(--weight-semibold);
+    margin: 0 0 4px;
+    color: var(--color-text-primary);
+    letter-spacing: -0.01em;
+  }
+  .principle p {
+    margin: 0;
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+    line-height: 1.55;
+  }
+
+  .hero-aside {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+  }
+  .hero-stat {
+    font-family: var(--font-mono);
+    font-size: clamp(64px, 8vw, 112px);
+    font-weight: var(--weight-medium);
+    line-height: 0.9;
+    letter-spacing: -0.04em;
+    background: var(--accent-shimmer);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+    font-variant-numeric: tabular-nums;
+  }
+  .hero-stat-cap {
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+    line-height: 1.55;
+    max-width: 32ch;
+  }
+  .hero-stat-cap strong { color: var(--color-text-primary); font-weight: var(--weight-semibold); }
+
+  /* ──────────────────────────────────────────────────────────────────
+     §02 Brillos lado a lado — dos paneles glass, gold ↔ titanium
+     ─────────────────────────────────────────────────────────────── */
+  .brillos {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-6);
+    margin-top: var(--space-8);
+  }
+  @media (max-width: 880px) { .brillos { grid-template-columns: 1fr; } }
+
+  .brillo-card {
+    padding: clamp(24px, 3vw, 40px);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    min-height: 380px;
+  }
+  .brillo-card .label {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--brillo-accent);
+  }
+  .brillo-card h3 {
+    font-size: var(--text-3xl);
+    font-weight: var(--weight-semibold);
+    margin: 0;
+    letter-spacing: -0.025em;
+    background: var(--brillo-shimmer);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+  }
+  .brillo-card p {
+    margin: 0;
+    color: var(--color-text-secondary);
+    font-size: var(--text-sm);
+    line-height: 1.6;
+  }
+  .brillo-card .uses {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: var(--space-2);
+  }
+  .brillo-card .chip {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    letter-spacing: 0.04em;
+    color: var(--color-text-secondary);
+    padding: 4px 10px;
+    border: 1px solid var(--color-border-subtle);
+    border-radius: var(--radius-full);
+    background: oklch(1 0 0 / 0.02);
+  }
+  [data-mode="light"] .brillo-card .chip { background: oklch(1 0 0 / 0.4); }
+
+  .brillo-card .ratio {
+    margin-top: auto;
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-3);
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--color-border-subtle);
+  }
+  .brillo-card .ratio-num {
+    font-family: var(--font-mono);
+    font-size: var(--text-3xl);
+    font-weight: var(--weight-medium);
+    font-variant-numeric: tabular-nums;
+    color: var(--brillo-accent);
+    letter-spacing: -0.02em;
+  }
+  .brillo-card .ratio-cap {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--color-text-tertiary);
+  }
+
+  /* Carda dedicada GOLD ignora el accent activo */
+  .brillo-card.gold {
+    --brillo-accent: oklch(0.78 0.165 85);
+    --brillo-shimmer: linear-gradient(180deg,
+      oklch(0.92 0.10 88) 0%,
+      oklch(0.82 0.165 85) 38%,
+      oklch(0.62 0.13 85) 70%,
+      oklch(0.78 0.155 85) 100%);
+  }
+  .brillo-card.titanium {
+    --brillo-accent: oklch(0.86 0.012 270);
+    --brillo-shimmer: linear-gradient(180deg,
+      oklch(0.95 0.005 270) 0%,
+      oklch(0.78 0.008 250) 30%,
+      oklch(0.55 0.010 240) 55%,
+      oklch(0.72 0.012 270) 78%,
+      oklch(0.92 0.006 270) 100%);
+  }
+  [data-mode="light"] .brillo-card.gold {
+    --brillo-accent: oklch(0.44 0.15 72);
+    --brillo-shimmer: linear-gradient(180deg,
+      oklch(0.66 0.15 78) 0%,
+      oklch(0.50 0.16 75) 50%,
+      oklch(0.38 0.14 70) 100%);
+  }
+  [data-mode="light"] .brillo-card.titanium {
+    --brillo-accent: oklch(0.42 0.014 255);
+    --brillo-shimmer: linear-gradient(180deg,
+      oklch(0.62 0.012 270) 0%,
+      oklch(0.42 0.014 255) 50%,
+      oklch(0.30 0.014 250) 100%);
+  }
+
+  /* ──────────────────────────────────────────────────────────────────
+     §03 Tokens — surface scale + accent stops + state colors
+     ─────────────────────────────────────────────────────────────── */
+  .tokens {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-5);
+    margin-top: var(--space-6);
+  }
+  @media (max-width: 980px) { .tokens { grid-template-columns: 1fr; } }
+
+  .token-group {
+    padding: var(--space-6);
+  }
+  .token-group h4 {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--color-text-tertiary);
+    margin: 0 0 var(--space-4);
+    font-weight: var(--weight-medium);
+  }
+  .swatch-row {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding: 8px 0;
+    border-bottom: 1px solid var(--color-border-subtle);
+    font-size: var(--text-sm);
+  }
+  .swatch-row:last-child { border-bottom: none; }
+  .swatch-row .chip {
+    width: 28px; height: 28px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--color-border-subtle);
+    flex: none;
+  }
+  .swatch-row .name {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    color: var(--color-text-secondary);
+    letter-spacing: 0;
+  }
+  .swatch-row .val {
+    margin-left: auto;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--color-text-tertiary);
+    letter-spacing: 0;
+  }
+
+  /* ──────────────────────────────────────────────────────────────────
+     §04 Tipografía — specimen
+     ─────────────────────────────────────────────────────────────── */
+  .type-specimen {
+    padding: clamp(28px, 4vw, 56px);
+    margin-top: var(--space-8);
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: var(--space-12);
+  }
+  @media (max-width: 880px) { .type-specimen { grid-template-columns: 1fr; gap: var(--space-6); } }
+
+  .type-meta {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+  .type-meta .key {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: var(--color-text-tertiary);
+  }
+  .type-meta .val {
+    font-size: var(--text-sm);
+    color: var(--color-text-primary);
+    font-weight: var(--weight-medium);
+  }
+
+  .specimen-row {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-4);
+    padding: var(--space-3) 0;
+    border-bottom: 1px solid var(--color-border-subtle);
+  }
+  .specimen-row:last-child { border-bottom: none; }
+  .specimen-row .tag {
+    flex: none;
+    width: 72px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--color-text-tertiary);
+    letter-spacing: 0;
+    padding-top: 0.6em;
+  }
+  .specimen-row .sample {
+    flex: 1;
+    color: var(--color-text-primary);
+    text-wrap: balance;
+  }
+  .specimen-row.display .sample { font-size: clamp(40px, 5vw, 72px); font-weight: var(--weight-semibold); letter-spacing: var(--tracking-display); line-height: 1; }
+  .specimen-row.h1 .sample { font-size: var(--text-4xl); font-weight: var(--weight-semibold); letter-spacing: var(--tracking-heading); line-height: 1.1; }
+  .specimen-row.h2 .sample { font-size: var(--text-3xl); font-weight: var(--weight-semibold); letter-spacing: var(--tracking-heading); line-height: 1.15; }
+  .specimen-row.body .sample { font-size: var(--text-base); color: var(--color-text-secondary); line-height: 1.5; }
+  .specimen-row.mono .sample { font-family: var(--font-mono); font-size: var(--text-sm); color: var(--color-text-secondary); }
+
+  /* ──────────────────────────────────────────────────────────────────
+     §05 Componentes — botones, badge, input, kbd
+     ─────────────────────────────────────────────────────────────── */
+  .components {
+    margin-top: var(--space-8);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-5);
+  }
+  @media (max-width: 880px) { .components { grid-template-columns: 1fr; } }
+
+  .component-card {
+    padding: clamp(24px, 3vw, 36px);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+  .component-card h4 {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--color-text-tertiary);
+    margin: 0;
+    font-weight: var(--weight-medium);
+  }
+  .component-card .row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    align-items: center;
+  }
+
+  /* Buttons */
+  .btn {
+    appearance: none;
+    border: none;
+    cursor: pointer;
+    font-family: var(--font-sans);
+    font-size: var(--text-sm);
+    font-weight: var(--weight-medium);
+    letter-spacing: -0.005em;
+    height: 36px;
+    padding: 0 var(--space-4);
+    border-radius: var(--radius-md);
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    transition:
+      background var(--duration-fast) var(--ease-out-quart),
+      color var(--duration-fast) var(--ease-out-quart),
+      box-shadow var(--duration-base) var(--ease-out-expo),
+      transform var(--duration-fast) var(--ease-out-quart);
+  }
+  .btn-solid {
+    background: var(--accent);
+    color: var(--accent-fg);
+    box-shadow: var(--shadow-glow-accent), inset 0 1px 0 oklch(1 0 0 / 0.25);
+  }
+  .btn-solid:hover { filter: brightness(1.06); }
+  .btn-outline {
+    background: transparent;
+    color: var(--color-text-primary);
+    box-shadow: inset 0 0 0 1px var(--color-border-default);
+  }
+  .btn-outline:hover { background: var(--color-surface-100); }
+  .btn-ghost {
+    background: transparent;
+    color: var(--color-text-secondary);
+  }
+  .btn-ghost:hover { color: var(--color-text-primary); background: var(--color-surface-100); }
+  .btn:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+
+  /* Badge */
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    height: 22px;
+    padding: 0 10px;
+    border-radius: var(--radius-full);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.04em;
+    border: 1px solid var(--color-border-subtle);
+    color: var(--color-text-secondary);
+    background: var(--color-surface-100);
+  }
+  /* "Activo" — neutro como un badge normal, pero con piloto azul eléctrico.
+     El azul vive solo en el dot ::before; texto, borde y fondo siguen
+     el sistema neutro v0.2.0. */
+  .badge.accent {
+    --active-blue: oklch(0.74 0.18 245);
+    color: var(--color-text-secondary);
+    border-color: var(--color-border-subtle);
+    background: var(--color-surface-100);
+  }
+  [data-mode="light"] .badge.accent {
+    --active-blue: oklch(0.46 0.20 250);
+  }
+  .badge.accent::before {
+    content: "";
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--active-blue);
+    box-shadow: 0 0 8px var(--active-blue);
+  }
+  .badge.success { color: var(--color-success-fg); border-color: var(--color-success-border); background: var(--color-success-bg); }
+  .badge.warning { color: var(--color-warning-fg); border-color: var(--color-warning-border); background: var(--color-warning-bg); }
+  .badge.error   { color: var(--color-error-fg);   border-color: var(--color-error-border);   background: var(--color-error-bg); }
+
+  /* Input */
+  .input-wrap {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    height: 40px;
+    padding: 0 var(--space-3);
+    background: var(--color-surface-100);
+    border: 1px solid var(--color-border-subtle);
+    border-radius: var(--radius-md);
+    transition: border-color var(--duration-fast) var(--ease-out-quart),
+                box-shadow var(--duration-fast) var(--ease-out-quart);
+  }
+  .input-wrap:focus-within {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px color-mix(in oklch, var(--accent) 25%, transparent);
+  }
+  .input-wrap svg { color: var(--color-text-tertiary); flex: none; }
+  .input-wrap input {
+    appearance: none;
+    border: none;
+    background: transparent;
+    outline: none;
+    color: var(--color-text-primary);
+    font-family: var(--font-sans);
+    font-size: var(--text-sm);
+    width: 100%;
+  }
+  .input-wrap input::placeholder { color: var(--color-text-tertiary); }
+  .input-wrap kbd {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--color-text-tertiary);
+    border: 1px solid var(--color-border-subtle);
+    border-radius: var(--radius-xs);
+    padding: 2px 6px;
+    background: var(--color-surface-0);
+    letter-spacing: 0;
+  }
+
+  /* Metric panel (titanium-like demo) */
+  .metric-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-3);
+  }
+  .metric {
+    padding: var(--space-4);
+    border: 1px solid var(--color-border-subtle);
+    border-radius: var(--radius-md);
+    background: oklch(1 0 0 / 0.02);
+  }
+  [data-mode="light"] .metric { background: oklch(1 0 0 / 0.4); }
+  .metric .k {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--color-text-tertiary);
+  }
+  .metric .v {
+    font-family: var(--font-mono);
+    font-size: var(--text-2xl);
+    font-weight: var(--weight-medium);
+    font-variant-numeric: tabular-nums;
+    color: var(--color-text-primary);
+    letter-spacing: -0.02em;
+    margin-top: 4px;
+  }
+  .metric .delta {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0;
+    margin-top: 2px;
+  }
+  .metric .delta.up   { color: var(--color-success-fg); }
+  .metric .delta.down { color: var(--color-error-fg); }
+
+  /* ──────────────────────────────────────────────────────────────────
+     Footer
+     ─────────────────────────────────────────────────────────────── */
+  footer {
+    margin-top: var(--space-24);
+    padding-top: var(--space-8);
+    border-top: 1px solid var(--color-border-subtle);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--space-4);
+    color: var(--color-text-tertiary);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    letter-spacing: 0.04em;
+  }
+  footer .dot {
+    /* piloto azul de "Activo" — independiente del accent (oro/titanio). */
+    --active-blue: oklch(0.74 0.18 245);
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--active-blue);
+    box-shadow: 0 0 12px var(--active-blue);
+    display: inline-block;
+    margin-right: 8px;
+  }
+  [data-mode="light"] footer .dot { --active-blue: oklch(0.46 0.20 250); }
+
+</style>
+</head>
+<body>
+  <!-- Atmósfera global -->
+  <div class="atm" aria-hidden="true"></div>
+  <div class="spark" aria-hidden="true"></div>
+  <div class="dust" aria-hidden="true"></div>
+  <div class="vignette" aria-hidden="true"></div>
+
+  <!-- Topbar -->
+  <header class="topbar">
+    <div class="brand">
+      <svg width="22" height="22" viewBox="0 0 48 48" fill="none">
+        <path d="M10 38 L24 10 L38 38" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M16 28 L32 28" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+        <circle cx="24" cy="10" r="2.25" fill="currentColor"/>
+      </svg>
+      <span>Vergina Imperial</span>
+      <span class="mono">v0.2.0 · vitrina</span>
+    </div>
+
+    <div class="controls">
+      <div class="seg" role="radiogroup" aria-label="Modo">
+        <button data-set="mode" data-val="dark"  aria-pressed="true">Dark</button>
+        <button data-set="mode" data-val="light" aria-pressed="false">Light</button>
+      </div>
+      <div class="seg" role="radiogroup" aria-label="Acento">
+        <button data-set="accent" data-val="gold"     aria-pressed="true">
+          <span class="swatch" style="--swatch: oklch(0.78 0.165 85)"></span> Oro
+        </button>
+        <button data-set="accent" data-val="titanium" aria-pressed="false">
+          <span class="swatch" style="--swatch: oklch(0.86 0.012 270)"></span> Titanio
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="eyebrow">Manual de Diseño · Alexendros</div>
+    <h1 class="display">Una atmósfera. Dos brillos. <span class="fade">Un sistema.</span></h1>
+    <p class="lede">Vergina Imperial es un sistema dark-first, oklch nativo y cero decoración gratuita. La atmósfera púrpura habita el fondo; los acentos en oro Vergina o titanio metalizado pintan la marca. El glass es el plano por defecto — la atmósfera atraviesa cada panel.</p>
+
+    <!-- §01 — Atmósfera & principios -->
+    <h2 class="section"><span class="num">§01</span>Atmósfera</h2>
+    <p class="section-sub">Tres capas radiales sobre <code style="font-family:var(--font-mono)">surface-0</code>: haze frío, velvet aterciopelado, viñeta. Encima, polvo metálico que reacciona al accent activo. Cambia el switch de arriba — el polvo cambia de color contigo.</p>
+
+    <div class="glass hero-panel">
+      <div>
+        <div class="principle">
+          <span class="marker">01</span>
+          <div>
+            <h4>Dark-first, no dark-también</h4>
+            <p>El sistema se diseña para fondo oscuro. Light es traducción material — alabastro tintado en púrpura, no inversión simétrica.</p>
+          </div>
+        </div>
+        <div class="principle">
+          <span class="marker">02</span>
+          <div>
+            <h4>Profundidad por luminosidad</h4>
+            <p>+0.02 L entre superficies. Sombras solo en overlays. Cards heredan profundidad del paso de luz, no del drop shadow.</p>
+          </div>
+        </div>
+        <div class="principle">
+          <span class="marker">03</span>
+          <div>
+            <h4>La atmósfera atraviesa el cristal</h4>
+            <p>Glass por defecto. Plano solo cuando la densidad lo exige. Nunca blur sobre vacío.</p>
+          </div>
+        </div>
+        <div class="principle">
+          <span class="marker">04</span>
+          <div>
+            <h4>Movimiento con intención</h4>
+            <p>Easings custom: out-expo, out-quart, spring. Default <code style="font-family:var(--font-mono)">ease-in-out</code> prohibido. 80–240 ms.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-aside">
+        <div class="hero-stat">+0.02</div>
+        <div class="hero-stat-cap">El átomo de elevación. <strong>Cada superficie</strong> sube exactamente dos centésimas de luminosidad sobre la anterior. La profundidad se construye por luz — no por sombra.</div>
+        <div class="hero-stat">9.85<span style="font-size:.5em; color:var(--color-text-secondary);">:1</span></div>
+        <div class="hero-stat-cap">Contraste del oro Vergina sobre <strong>surface-0</strong>. Pasa AAA body sin ajuste — la marca pinta y escribe con el mismo token en dark.</div>
+      </div>
+    </div>
+
+    <!-- §02 — Brillos -->
+    <h2 class="section"><span class="num">§02</span>Dos brillos</h2>
+    <p class="section-sub">El acento es propiedad de la <strong>superficie</strong>, no del componente. Una vista entera vive en un metal. La elección la fija el dominio del producto, no el switch del usuario.</p>
+
+    <div class="brillos">
+      <div class="glass brillo-card gold">
+        <div class="label">Oro Vergina · hue 85</div>
+        <h3>Memoria, valor, firma</h3>
+        <p>Cálido, batido, helénico. Alexendros.me, manuales, archivo, marketing identitario. Botones de acción comprometida — "Comprometerse", "Publicar", "Firmar".</p>
+        <div class="uses">
+          <span class="chip">alexendros.me</span>
+          <span class="chip">manuales</span>
+          <span class="chip">decks</span>
+          <span class="chip">cifras-trofeo</span>
+        </div>
+        <div class="ratio">
+          <div class="ratio-num">9.85:1</div>
+          <div class="ratio-cap">sobre surface-0 (dark) · WCAG AAA</div>
+        </div>
+      </div>
+
+      <div class="glass brillo-card titanium">
+        <div class="label">Titanio · hue 270 · chroma ≤ 0.012</div>
+        <h3>Maquinaria, dato, telemetría</h3>
+        <p>Frío, perlado, instrumentado. Alexendros.pro, Controlink, dashboards densos, gráficas operativas. Botones de procedimiento — "Ejecutar", "Reiniciar", "Procesar".</p>
+        <div class="uses">
+          <span class="chip">alexendros.pro</span>
+          <span class="chip">Controlink</span>
+          <span class="chip">métricas</span>
+          <span class="chip">command center</span>
+        </div>
+        <div class="ratio">
+          <div class="ratio-num">~10:1</div>
+          <div class="ratio-cap">sobre surface-0 (dark) · WCAG AAA</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- §03 — Tokens -->
+    <h2 class="section"><span class="num">§03</span>Tokens</h2>
+    <p class="section-sub">Surface scale, accent stops, estados semánticos. Todo en oklch. Las variables compartidas (tipografía, spacing, radii, motion) viven en <code style="font-family:var(--font-mono)">colors_and_type.css</code>; la atmósfera y los acentos en <code style="font-family:var(--font-mono)">color_modes.css</code>.</p>
+
+    <div class="tokens">
+      <div class="glass token-group">
+        <h4>Surface scale</h4>
+        <div class="swatch-row"><span class="chip" style="background: var(--color-surface-0)"></span><span class="name">surface-0</span><span class="val">0.10 L</span></div>
+        <div class="swatch-row"><span class="chip" style="background: var(--color-surface-100)"></span><span class="name">surface-100</span><span class="val">0.14 L</span></div>
+        <div class="swatch-row"><span class="chip" style="background: var(--color-surface-300)"></span><span class="name">surface-300</span><span class="val">0.20 L</span></div>
+        <div class="swatch-row"><span class="chip" style="background: var(--color-surface-500)"></span><span class="name">surface-500</span><span class="val">0.26 L</span></div>
+        <div class="swatch-row"><span class="chip" style="background: var(--color-surface-700)"></span><span class="name">surface-700</span><span class="val">0.33 L</span></div>
+        <div class="swatch-row"><span class="chip" style="background: var(--color-surface-900)"></span><span class="name">surface-900</span><span class="val">0.42 L</span></div>
+      </div>
+
+      <div class="glass token-group">
+        <h4>Accent (activo)</h4>
+        <div class="swatch-row"><span class="chip" style="background: var(--accent)"></span><span class="name">accent</span><span class="val">primary</span></div>
+        <div class="swatch-row"><span class="chip" style="background: var(--accent-bright)"></span><span class="name">accent-bright</span><span class="val">highlight</span></div>
+        <div class="swatch-row"><span class="chip" style="background: var(--accent-dim)"></span><span class="name">accent-dim</span><span class="val">grave</span></div>
+        <div class="swatch-row"><span class="chip" style="background: var(--accent-shimmer); background-clip: padding-box;"></span><span class="name">accent-shimmer</span><span class="val">linear-grad</span></div>
+        <div class="swatch-row"><span class="chip" style="background: var(--accent-fg)"></span><span class="name">accent-fg</span><span class="val">on-accent</span></div>
+        <div class="swatch-row"><span class="chip" style="background: var(--color-border-default)"></span><span class="name">border-default</span><span class="val">surface-500</span></div>
+      </div>
+
+      <div class="glass token-group">
+        <h4>Estados</h4>
+        <div class="swatch-row"><span class="chip" style="background: var(--color-success-fg)"></span><span class="name">success-fg</span><span class="val">hue 130</span></div>
+        <div class="swatch-row"><span class="chip" style="background: var(--color-warning-fg)"></span><span class="name">warning-fg</span><span class="val">hue 82</span></div>
+        <div class="swatch-row"><span class="chip" style="background: var(--color-error-fg)"></span><span class="name">error-fg</span><span class="val">hue 25</span></div>
+        <div class="swatch-row"><span class="chip" style="background: var(--color-info-fg)"></span><span class="name">info-fg</span><span class="val">hue 230</span></div>
+        <div class="swatch-row"><span class="chip" style="background: var(--color-text-primary)"></span><span class="name">text-primary</span><span class="val">0.97 L</span></div>
+        <div class="swatch-row"><span class="chip" style="background: var(--color-text-tertiary)"></span><span class="name">text-tertiary</span><span class="val">0.62 L</span></div>
+      </div>
+    </div>
+
+    <!-- §04 — Tipografía -->
+    <h2 class="section"><span class="num">§04</span>Tipografía</h2>
+    <p class="section-sub">Geist variable como única familia. Display tracking <code style="font-family:var(--font-mono)">-0.035em</code>, body <code style="font-family:var(--font-mono)">-0.005em</code>, mono <code style="font-family:var(--font-mono)">0</code>. Mezclar pesos para énfasis está prohibido — usa color o tamaño.</p>
+
+    <div class="glass type-specimen">
+      <div class="type-meta">
+        <div>
+          <div class="key">Sans</div>
+          <div class="val">Geist VF</div>
+        </div>
+        <div>
+          <div class="key">Mono</div>
+          <div class="val">Geist Mono VF</div>
+        </div>
+        <div>
+          <div class="key">Pesos</div>
+          <div class="val">400 · 500 · 600 · 700</div>
+        </div>
+        <div>
+          <div class="key">Scale</div>
+          <div class="val">clamp() fluid · sin breakpoints</div>
+        </div>
+      </div>
+
+      <div>
+        <div class="specimen-row display"><span class="tag">display</span><span class="sample">Patrón pretoriano</span></div>
+        <div class="specimen-row h1"><span class="tag">h1</span><span class="sample">Una atmósfera, dos brillos.</span></div>
+        <div class="specimen-row h2"><span class="tag">h2</span><span class="sample">El acento es propiedad de la superficie.</span></div>
+        <div class="specimen-row body"><span class="tag">body</span><span class="sample">El producto habla en tono bajo. Sustantivos antes que verbos. Sin signos de admiración. Microcopy en infinitivo o nombre corto. La técnica antes que el marketing.</span></div>
+        <div class="specimen-row mono"><span class="tag">mono</span><span class="sample">--accent: oklch(0.78 0.165 85);  /* oro Vergina · default */</span></div>
+      </div>
+    </div>
+
+    <!-- §05 — Componentes -->
+    <h2 class="section"><span class="num">§05</span>Componentes</h2>
+    <p class="section-sub">Glass cards con primitivas mínimas. Botón solid + outline + ghost. Badges con tokens semánticos. Input con focus ring de acento. Métricas tabulares para superficies de telemetría.</p>
+
+    <div class="components">
+      <div class="glass component-card">
+        <h4>Botones</h4>
+        <div class="row">
+          <button class="btn btn-solid">Comprometerse</button>
+          <button class="btn btn-outline">Cancelar</button>
+          <button class="btn btn-ghost">Más opciones</button>
+        </div>
+        <div class="row">
+          <span class="badge accent">Activo</span>
+          <span class="badge success">Sincronizado</span>
+          <span class="badge warning">Pendiente</span>
+          <span class="badge error">Error 503</span>
+          <span class="badge">v0.2.0</span>
+        </div>
+      </div>
+
+      <div class="glass component-card">
+        <h4>Búsqueda</h4>
+        <label class="input-wrap">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="7"/>
+            <path d="m20 20-3.5-3.5"/>
+          </svg>
+          <input type="text" placeholder="Buscar componente, token, principio…"/>
+          <kbd>⌘K</kbd>
+        </label>
+        <p style="margin:0; color: var(--color-text-tertiary); font-size: var(--text-xs); font-family: var(--font-mono); letter-spacing: 0.04em;">focus-visible ring · 2 px en accent · offset 2 px</p>
+      </div>
+
+      <div class="glass component-card" style="grid-column: 1 / -1;">
+        <h4>Métricas (telemetría)</h4>
+        <div class="metric-grid">
+          <div class="metric">
+            <div class="k">Latencia p95</div>
+            <div class="v">128<span style="font-size:.5em; color:var(--color-text-tertiary); margin-left:4px;">ms</span></div>
+            <div class="delta down">−14 ms · 24 h</div>
+          </div>
+          <div class="metric">
+            <div class="k">Throughput</div>
+            <div class="v">9.4K<span style="font-size:.5em; color:var(--color-text-tertiary); margin-left:4px;">rps</span></div>
+            <div class="delta up">+612 · 24 h</div>
+          </div>
+          <div class="metric">
+            <div class="k">Error budget</div>
+            <div class="v">82.4<span style="font-size:.5em; color:var(--color-text-tertiary); margin-left:4px;">%</span></div>
+            <div class="delta up">+1.8 pts · 24 h</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      <div><span class="dot"></span>github.com/Alexendros/vergina-imperial</div>
+      <div>v0.2.0 · dark-first · oklch · cero decoración gratuita</div>
+    </footer>
+  </main>
+
+  <script>
+    // Switches mode + accent — escriben data-attrs en <html>.
+    const root = document.documentElement;
+    document.querySelectorAll('.seg button').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const k = btn.dataset.set, v = btn.dataset.val;
+        root.dataset[k] = v;
+        // Update aria-pressed across the group
+        btn.parentElement.querySelectorAll('button').forEach(b =>
+          b.setAttribute('aria-pressed', b === btn ? 'true' : 'false')
+        );
+      });
+    });
+  </script>
+</body>
+</html>
