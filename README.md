@@ -61,9 +61,11 @@ Decisión por dominio del producto, no por gusto visual. Una vista entera vive e
 
 ## Getting started
 
+> ⚠ **Importar los CSS solo no es aplicar el sistema.** El resultado se verá plano (atmósfera muerta, sin glass, sin polvo). El sistema vive en **5 capas**: tokens + atmósfera (4 divs HTML) + glass primitive en cards + tipografía display + acento por superficie. Ver el **snippet canónico copy-paste** en [`SKILL.md`](SKILL.md) — un solo bloque que aplica el repertorio entero (variantes para HTML estático y Next.js App Router).
+
 This repository is consumed, not installed. Three modes are supported:
 
-**A · Direct copy.** Copia `colors_and_type.css` y `color_modes.css` a tu proyecto y haz `@import`. Setea `data-accent` y `data-mode` en `<html>` o un root scoped.
+**A · Direct copy.** Copia `colors_and_type.css` y `color_modes.css` a tu proyecto y haz `@import`. Setea `data-accent` y `data-mode` en `<html>` o un root scoped. **Después** añade los 4 divs `.atm`/`.spark`/`.dust`/`.vignette` al `<body>` y refactor de `.card` a glass primitive — sin esto el sistema se ve plano. Snippet completo en SKILL.md §"Aplicación completa".
 
 **B · Git submodule.**
 
