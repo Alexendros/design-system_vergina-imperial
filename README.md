@@ -3,7 +3,7 @@
 > Una atmósfera. Dos brillos. Un sistema.
 
 [![License: All rights reserved](https://img.shields.io/badge/license-all%20rights%20reserved-333.svg)](LICENSE)
-[![Validate](https://github.com/Alexendros/vergina-imperial/actions/workflows/validate.yml/badge.svg)](https://github.com/Alexendros/vergina-imperial/actions/workflows/validate.yml)
+[![Validate](https://github.com/Alexendros/design-system_vergina-imperial/actions/workflows/validate.yml/badge.svg)](https://github.com/Alexendros/design-system_vergina-imperial/actions/workflows/validate.yml)
 [![Version](https://img.shields.io/badge/version-0.2.0-A87BD8.svg)](CHANGELOG.md)
 
 Manual de diseño dark-first y de acabado alto para la marca **Alexendros**. El producto se llama **Vergina Imperial** — **V**ergina (oro) sobre **A**tmósfera **P**retoriana, opcionalmente recubierto de **titanio** cuando el dominio es maquinaria, no memoria.
@@ -68,7 +68,7 @@ This repository is consumed, not installed. Three modes are supported:
 **B · Git submodule.**
 
 ```bash
-git submodule add git@github.com:Alexendros/vergina-imperial.git vendor/vergina-imperial
+git submodule add git@github.com:Alexendros/design-system_vergina-imperial.git vendor/vergina-imperial
 ```
 
 **C · Claude Code skill.** El repo trae `SKILL.md` con `user-invocable: true`. Symlink en `~/.claude/skills/vergina-imperial/` y se invoca con `/vergina-imperial`.
