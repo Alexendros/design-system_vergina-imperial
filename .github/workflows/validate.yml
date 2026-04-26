@@ -1,0 +1,35 @@
+name: validate
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  tokens-and-contrast:
+    name: Tokens + WCAG AA
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Validate tokens (no hex/rgb/px/!important outside allowlist)
+        # Allowlist incluye: tokens core (colors_and_type.css + color_modes.css)
+        # y meta-tooling del DS (Atelier de Revisión + Font Lab + tweaks panel),
+        # que son UI interna del propio sistema, no producto consumidor.
+        run: |
+          node scripts/validate-tokens.mjs . \
+            --allow=colors_and_type.css,color_modes.css,atelier.css,font-lab.css,tweaks-panel.jsx,atelier-app.jsx,atelier-components.jsx
+
+      - name: Validate contrast (WCAG AA · dark/light × gold/titanium)
+        run: node scripts/validate-contrast.mjs .

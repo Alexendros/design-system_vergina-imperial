@@ -73,12 +73,18 @@ git submodule add git@github.com:Alexendros/design-system_vergina-imperial.git v
 
 **C · Claude Code skill.** El repo trae `SKILL.md` con `user-invocable: true`. Symlink en `~/.claude/skills/vergina-imperial/` y se invoca con `/vergina-imperial`.
 
-CI ejecuta dos validadores:
+CI ejecuta dos validadores sobre el repo flat (sin `src/`):
 
 ```bash
-node scripts/validate-tokens.mjs src/
-node scripts/validate-contrast.mjs src/styles/
+node scripts/validate-tokens.mjs . \
+  --allow=colors_and_type.css,color_modes.css,atelier.css,font-lab.css,tweaks-panel.jsx,atelier-app.jsx,atelier-components.jsx
+node scripts/validate-contrast.mjs .
 ```
+
+Los core tokens (`colors_and_type.css` + `color_modes.css`) y el meta-tooling
+del DS (Atelier de Revisión + Font Lab + tweaks panel) van en allowlist por ser
+fuente de verdad o UI interna. Los scripts viven en `scripts/`. El workflow
+correspondiente está en `.github/workflows/validate.yml`.
 
 ---
 
