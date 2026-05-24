@@ -145,7 +145,7 @@
   color: oklch(0.78 0.13 80);
   background: color-mix(in oklch, oklch(0.78 0.13 80) 8%, transparent);
   border: 1px solid color-mix(in oklch, oklch(0.78 0.13 80) 35%, transparent);
-  padding: 3px 8px;
+  padding: var(--space-1) var(--space-2);
   border-radius: var(--radius-xs);
 }
 
@@ -180,7 +180,7 @@
 .sample-row {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: var(--space-2);
 }
 .sample-label {
   font-family: var(--font-mono);
@@ -246,7 +246,7 @@
 .sample-inline code {
   font-size: 0.92em;
   background: var(--color-surface-100);
-  padding: 1px 6px;
+  padding: var(--space-1) var(--space-2);
   border-radius: var(--radius-xs);
   border: 1px solid var(--color-border-subtle);
   color: var(--color-text-primary);
@@ -265,7 +265,7 @@
   font-family: var(--font-mono);
   font-size: 10px;
   letter-spacing: 0.06em;
-  padding: 2px 7px;
+  padding: var(--space-1) var(--space-2);
   border-radius: var(--radius-xs);
   border: 1px solid var(--color-border-subtle);
   background: color-mix(in oklch, var(--color-surface-200) 50%, transparent);
@@ -389,7 +389,7 @@
   color: var(--color-text-primary);
   font-family: var(--font-mono);
   font-size: 12px;
-  padding: 5px 10px;
+  padding: var(--space-1) var(--space-3);
   cursor: pointer;
 }
 .live-group select:focus {
@@ -483,7 +483,7 @@
 .lab-back {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: var(--space-2);
   font-family: var(--font-mono);
   font-size: 11px;
   letter-spacing: 0.08em;
@@ -491,7 +491,7 @@
   color: var(--color-text-tertiary);
   text-decoration: none;
   margin-bottom: var(--space-5);
-  padding: 4px 10px;
+  padding: var(--space-1) var(--space-3);
   border: 1px solid var(--color-border-subtle);
   border-radius: var(--radius-xs);
   background: var(--color-surface-50);
